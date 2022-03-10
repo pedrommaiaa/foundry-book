@@ -1091,6 +1091,8 @@ optimizer_runs = 200                                          # the number of op
 verbosity = 0                                                 # the verbosity of tests
 ignored_error_codes = []                                      # a list of ignored solc error codes
 fuzz_runs = 256                                               # the number of fuzz runs for tests
+fuzz_max_local_rejects = 65536                                # max number of individual inputs that may be rejected before the test aborts
+fuzz_max_global_rejects = 1024                                # max number of combined inputs that may be rejected before the test aborts
 ffi = false                                                   # whether to enable ffi or not
 sender = '0x00a329c0648769a73afac7f9381e08fb43dbea72'         # the address of `msg.sender` in tests
 tx_origin = '0x00a329c0648769a73afac7f9381e08fb43dbea72'      # the address of `tx.origin` in tests
@@ -1250,6 +1252,22 @@ gas_reports = [&quot;*&quot;]                                           # a list
 <li>Environment: <code>FOUNDRY_FUZZ_RUNS</code> or <code>DAPP_FUZZ_RUNS</code></li>
 </ul>
 <p>The amount of fuzz runs to perform for each fuzz test case. Higher values gives more confidence in results at the cost of testing speed.</p>
+<h5 id="fuzz_max_local_rejects"><a class="header" href="#fuzz_max_local_rejects"><code>fuzz_max_local_rejects</code></a></h5>
+<ul>
+<li>Type: integer</li>
+<li>Default: 65536</li>
+<li>Environment: <code>FOUNDRY_FUZZ_RUNS</code></li>
+</ul>
+<p>The maximum number of individual inputs that may be rejected before the test as a whole aborts.
+&quot;Local&quot; filters apply to a single strategy. If a value is rejected, a new value is drawn from that strategy only.</p>
+<h5 id="fuzz_max_global_rejects"><a class="header" href="#fuzz_max_global_rejects"><code>fuzz_max_global_rejects</code></a></h5>
+<ul>
+<li>Type: integer</li>
+<li>Default: 10234</li>
+<li>Environment: <code>FOUNDRY_FUZZ_RUNS</code></li>
+</ul>
+<p>The maximum number of combined inputs that may be rejected before the test as a whole aborts.
+&quot;Global&quot; filters apply to the whole test case. If the test case is rejected, the whole thing is regenerated.</p>
 <h5 id="ffi"><a class="header" href="#ffi"><code>ffi</code></a></h5>
 <ul>
 <li>Type: boolean</li>
@@ -1650,7 +1668,7 @@ assertLeDecimal(a, b, 18);
 </blockquote>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="cheatcodes-reference"><a class="header" href="#cheatcodes-reference">Cheatcodes Reference</a></h2>
 <p>Cheatcodes give you the ability to alter the state of the EVM, mock data, assert on reverts, and more.</p>
-<p>To enable a cheatcode you call designated functions on the cheatcode address: <code>0x7109709ECfa91a80626fF3989D68f67F5b1DD12D</code>.</p>
+<p>To enable a cheatcode you call designated functions on the cheatcode address: <code>0x7109709ECfa91a80626fF3989D68f67F5b1DD12D</code>. This address can be accessed through the <code>HEVM_ADDRESS</code> constant in <code>DSTest</code>.</p>
 <h3 id="cheatcodes-interface"><a class="header" href="#cheatcodes-interface">Cheatcodes Interface</a></h3>
 <p>This is a complete overview of all the available cheatcodes. For detailed descriptions and example usage, see below.</p>
 <pre><code class="language-solidity">interface CheatCodes {
@@ -2092,10 +2110,20 @@ assertEq0(address(myContract).code, anotherAddress.code); // [PASS]
 <pre><code class="language-solidity">function assume(bool) external;
 </code></pre>
 <p>If the boolean expression evaluates to false, discard the current fuzz inputs and start a new fuzz run.</p>
+<p>The <code>assume</code> cheatcode should mainly be used for very narrow checks. Broad checks will slow down tests as it will take a while to find valid values, and the test may fail if you hit the max number of rejects. You can configure the rejection thresholds by setting <a href="reference/./config.html#fuzz_max_local_rejects"><code>fuzz_max_local_rejects</code></a> and <a href="reference/./config.html#fuzz_max_global_rejects"><code>fuzz_max_global_rejects</code></a> in your <code>foundry.toml</code> file. More information on filtering via <code>assume</code> can be found <a href="https://altsysrq.github.io/proptest-book/proptest/tutorial/filtering.html#filtering">here</a>.</p>
+<p>For broad checks, such as ensuring a <code>uint256</code> falls within a certain range, you can bound your input with the modulo operator or Solmate's <a href="https://github.com/Rari-Capital/solmate/blob/a9e3ea26a2dc73bfa87f0cb189687d029028e0c5/src/test/utils/DSTestPlus.sol#L114-L133"><code>bound</code></a> method.</p>
 <h5 id="example-32"><a class="header" href="#example-32">Example</a></h5>
-<pre><code class="language-solidity">function testX(uint256 a) public {
+<pre><code class="language-solidity">// Good example of using assume
+function testX(uint256 a) public {
     cheats.assume(a != 1);
     require(a != 1);
+    // [PASS]
+}
+
+// In this case assume is not a great fit, so you should bound inputs manually
+function testY(uint256 a) public {
+    a = bound(a, 100, 1e36);
+    require(a &gt;= 100 &amp;&amp; a &lt;= 1e36);
     // [PASS]
 }
 </code></pre>

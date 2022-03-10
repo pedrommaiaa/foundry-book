@@ -142,7 +142,7 @@
                     <main>
                         <h2 id="cheatcodes-reference"><a class="header" href="#cheatcodes-reference">Cheatcodes Reference</a></h2>
 <p>Cheatcodes give you the ability to alter the state of the EVM, mock data, assert on reverts, and more.</p>
-<p>To enable a cheatcode you call designated functions on the cheatcode address: <code>0x7109709ECfa91a80626fF3989D68f67F5b1DD12D</code>.</p>
+<p>To enable a cheatcode you call designated functions on the cheatcode address: <code>0x7109709ECfa91a80626fF3989D68f67F5b1DD12D</code>. This address can be accessed through the <code>HEVM_ADDRESS</code> constant in <code>DSTest</code>.</p>
 <h3 id="cheatcodes-interface"><a class="header" href="#cheatcodes-interface">Cheatcodes Interface</a></h3>
 <p>This is a complete overview of all the available cheatcodes. For detailed descriptions and example usage, see below.</p>
 <pre><code class="language-solidity">interface CheatCodes {
@@ -584,10 +584,20 @@ assertEq0(address(myContract).code, anotherAddress.code); // [PASS]
 <pre><code class="language-solidity">function assume(bool) external;
 </code></pre>
 <p>If the boolean expression evaluates to false, discard the current fuzz inputs and start a new fuzz run.</p>
+<p>The <code>assume</code> cheatcode should mainly be used for very narrow checks. Broad checks will slow down tests as it will take a while to find valid values, and the test may fail if you hit the max number of rejects. You can configure the rejection thresholds by setting <a href="./config.html#fuzz_max_local_rejects"><code>fuzz_max_local_rejects</code></a> and <a href="./config.html#fuzz_max_global_rejects"><code>fuzz_max_global_rejects</code></a> in your <code>foundry.toml</code> file. More information on filtering via <code>assume</code> can be found <a href="https://altsysrq.github.io/proptest-book/proptest/tutorial/filtering.html#filtering">here</a>.</p>
+<p>For broad checks, such as ensuring a <code>uint256</code> falls within a certain range, you can bound your input with the modulo operator or Solmate's <a href="https://github.com/Rari-Capital/solmate/blob/a9e3ea26a2dc73bfa87f0cb189687d029028e0c5/src/test/utils/DSTestPlus.sol#L114-L133"><code>bound</code></a> method.</p>
 <h5 id="example-14"><a class="header" href="#example-14">Example</a></h5>
-<pre><code class="language-solidity">function testX(uint256 a) public {
+<pre><code class="language-solidity">// Good example of using assume
+function testX(uint256 a) public {
     cheats.assume(a != 1);
     require(a != 1);
+    // [PASS]
+}
+
+// In this case assume is not a great fit, so you should bound inputs manually
+function testY(uint256 a) public {
+    a = bound(a, 100, 1e36);
+    require(a &gt;= 100 &amp;&amp; a &lt;= 1e36);
     // [PASS]
 }
 </code></pre>

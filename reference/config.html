@@ -169,6 +169,8 @@ optimizer_runs = 200                                          # the number of op
 verbosity = 0                                                 # the verbosity of tests
 ignored_error_codes = []                                      # a list of ignored solc error codes
 fuzz_runs = 256                                               # the number of fuzz runs for tests
+fuzz_max_local_rejects = 65536                                # max number of individual inputs that may be rejected before the test aborts
+fuzz_max_global_rejects = 1024                                # max number of combined inputs that may be rejected before the test aborts
 ffi = false                                                   # whether to enable ffi or not
 sender = '0x00a329c0648769a73afac7f9381e08fb43dbea72'         # the address of `msg.sender` in tests
 tx_origin = '0x00a329c0648769a73afac7f9381e08fb43dbea72'      # the address of `tx.origin` in tests
@@ -328,6 +330,22 @@ gas_reports = [&quot;*&quot;]                                           # a list
 <li>Environment: <code>FOUNDRY_FUZZ_RUNS</code> or <code>DAPP_FUZZ_RUNS</code></li>
 </ul>
 <p>The amount of fuzz runs to perform for each fuzz test case. Higher values gives more confidence in results at the cost of testing speed.</p>
+<h5 id="fuzz_max_local_rejects"><a class="header" href="#fuzz_max_local_rejects"><code>fuzz_max_local_rejects</code></a></h5>
+<ul>
+<li>Type: integer</li>
+<li>Default: 65536</li>
+<li>Environment: <code>FOUNDRY_FUZZ_RUNS</code></li>
+</ul>
+<p>The maximum number of individual inputs that may be rejected before the test as a whole aborts.
+&quot;Local&quot; filters apply to a single strategy. If a value is rejected, a new value is drawn from that strategy only.</p>
+<h5 id="fuzz_max_global_rejects"><a class="header" href="#fuzz_max_global_rejects"><code>fuzz_max_global_rejects</code></a></h5>
+<ul>
+<li>Type: integer</li>
+<li>Default: 10234</li>
+<li>Environment: <code>FOUNDRY_FUZZ_RUNS</code></li>
+</ul>
+<p>The maximum number of combined inputs that may be rejected before the test as a whole aborts.
+&quot;Global&quot; filters apply to the whole test case. If the test case is rejected, the whole thing is regenerated.</p>
 <h5 id="ffi"><a class="header" href="#ffi"><code>ffi</code></a></h5>
 <ul>
 <li>Type: boolean</li>
