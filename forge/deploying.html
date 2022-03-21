@@ -172,7 +172,7 @@ contract MyToken is ERC20 {
 <p>You can verify a contract on Etherscan with the <code>forge verify-contract</code> command.</p>
 <p>You must provide:</p>
 <ul>
-<li>the <a href="https://etherscan.io/solcversions">compiler version</a> used during the build, with 8 hex digits from the commit version prefix</li>
+<li><a href="https://etherscan.io/solcversions">compiler version</a> used for build, with 8 hex digits from the commit version prefix (the commit will usually not be a nightly build)</li>
 <li>the contract address</li>
 <li>the path to the contract <code>&lt;path&gt;:&lt;contractname&gt;</code></li>
 <li>your Etherscan API key (env: <code>ETHERSCAN_API_KEY</code>).</li>
@@ -211,6 +211,12 @@ Contract successfully verified.
 <p>Make sure the passed arguments are of correct type.</p>
 <h5 id="signature-error"><a class="header" href="#signature-error"><code>Signature error</code></a></h5>
 <p>Make sure the private key is correct.</p>
+<h5 id="compiler-version-commit-for-verify"><a class="header" href="#compiler-version-commit-for-verify"><code>Compiler version commit for verify</code></a></h5>
+<p>If you want to check the exact commit you are running locally, try: <code> ~/.svm/0.x.y/solc-0.x.y --version</code> where <code>x</code> and <code>y</code> are major and minor version numbers respectively.  The output of this will be something like:</p>
+<pre><code class="language-ignore">solc, the solidity compiler commandline interface
+Version: 0.8.12+commit.f00d7308.Darwin.appleclang
+</code></pre>
+<p>Note: You cannot just paste the entire string &quot;0.8.12+commit.f00d7308.Darwin.appleclang&quot; as the argument for the compiler-version.  But you can use the 8 hex digits of the commit to look up exactly what you should copy and paste from <a href="https://etherscan.io/solcversions">compiler version</a>.</p>
 
                     </main>
 
