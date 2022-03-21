@@ -201,7 +201,7 @@ A good practice is to use something like <code>testCannot</code> in combination 
 </ul>
 <br>
 <p>You may choose to use <code>constructor</code> for certain logic instead of <code>setUp</code>. Since <code>setUp</code> is invoked before each test case is run, it is most suitable for &quot;resetting&quot; the arrangement part of your tests. If you do not want certain things to be reset every time a test is ran, use <code>constructor</code> instead for those.</p>
-<p>Tests are deployed to <code>0xb4c79dab8f259c7aee6e5b2aa729821864227e84</code>. If you deploy a contract within your test, then <code>0xb4c...7e84</code> will be its deployer. If the contract deployed within a test gives special permissions to its deployer, such as <code>Ownable.sol</code>'s <code>onlyOwner</code> modifier, then the test contract <code>0xb4c...7e84</code> will have those permissions.</p>
+<p>Tests are deployed to <code>0xb4c79daB8f259C7Aee6E5b2Aa729821864227e84</code>. If you deploy a contract within your test, then <code>0xb4c...7e84</code> will be its deployer. If the contract deployed within a test gives special permissions to its deployer, such as <code>Ownable.sol</code>'s <code>onlyOwner</code> modifier, then the test contract <code>0xb4c...7e84</code> will have those permissions.</p>
 <p>It is possible to use other testing libraries or roll your own. For example, if you find yourself lacking a special type of assertion, you could extend <code>ds-test</code>.</p>
 <h3 id="shared-setups"><a class="header" href="#shared-setups">Shared setups</a></h3>
 <p>It is possible to use shared setups by creating helper abstract contracts and inheriting them in your test contracts:</p>
