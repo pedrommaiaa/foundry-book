@@ -259,6 +259,50 @@ Running 2 tests for OwnerUpOnlyTest.json:OwnerUpOnlyTest
 [PASS] testIncrementAsNotOwner() (gas: 4917)
 [PASS] testIncrementAsOwner() (gas: 24661)
 </code></pre>
+<p>Another cheatcode that is perhaps not so intuitive is the <code>expectEmit</code> function. Before looking at <code>expectEmit</code>, we need to understand what an event is.</p>
+<p>Events are inheritable members of contracts. When you emit an event, the arguments are stored on the blockchain. The <code>indexed</code> attribute can be added to a maximum of three parameters of an event to form a data structure known as a &quot;topic.&quot; Topics allow users to search for events on the blockchain.</p>
+<pre><code class="language-solidity">interface CheatCodes {
+    function expectEmit(
+        bool,
+        bool,
+        bool,
+        bool
+    ) external;
+}
+
+contract EmitContractTest is DSTest {
+    event Transfer(address indexed from, address indexed to, uint256 amount);
+    CheatCodes constant cheats = CheatCodes(HEVM_ADDRESS);
+
+    function testExpectEmit() public {
+        ExpectEmit emitter = new ExpectEmit();
+        // check topic 1, topic 2, and data are the same as the following emitted event
+        // checking topic 3 here doesn't matter if it's set to true or false, because `Transfer`
+        // only has 2 indexed topics, `from` and `to`
+        cheats.expectEmit(true, true, false, true);
+        emit Transfer(address(this), address(1337), 1337); // expected event 1
+        emitter.t(); // returned event 1
+    }
+
+    function testExpectEmitDoNotCheckData() public {
+        ExpectEmit emitter = new ExpectEmit();
+        // check topic 1, topic 2, do not check data
+        cheats.expectEmit(true, true, false, false);
+        emit Transfer(address(this), address(1337), 1338); // expected event 2
+        emitter.t(); // returned event 2
+    }
+}
+
+contract ExpectEmit {
+    event Transfer(address indexed from, address indexed to, uint256 amount);
+
+    function t() public {
+        emit Transfer(msg.sender, address(1337), 1337);
+    }
+}
+</code></pre>
+<p>When we call <code>cheats.expectEmit(true, true, false, true);</code>, we want to check the 1st and 2nd <code>indexed</code> topic for the next event. The expected <code>Transfer</code> event (annotated as expected event 1) in <code>testExpectEmit()</code> means we are expecting <code>from = address(this)</code> and <code>to = address(1337)</code>. This is compared against the event emitted from <code>emitter.t()</code> (annotated as returned event 1). In other words, we are checking that the first topic from <code>emitter.t()</code> is equal to <code>address(this)</code>. The 3rd argument in <code>expectEmit</code> is set to <code>false</code> because there is no need to check for the 3rd <code>indexed</code> topic in <code>Transfer</code> event. It does not matter even if we set to <code>true</code>.</p>
+<p>The 4th argument in <code>expectEmit</code> is set to <code>true</code> means that we want to check that &quot;non-indexed topics&quot;, also known as data. For example, we want the data from the expected event 1, which is <code>amount</code> to equal to the data in returned event 1. In other words, we are asserting that <code>amount</code> emitted by <code>emitter.t()</code> is equal to <code>1337</code> from expected event 1. If the fourth argument in <code>expectEmit</code> were set to false, it means we do not want to check the <code>amount</code>. In other words, <code>testExpectEmitDoNotCheckData</code> is a valid test case since the <code>amount</code> from expected event 2 is different from the returned event 2 from <code>emitter.t()</code>.</p>
 <br>
 <blockquote>
 <p>📚 <strong>Reference</strong></p>
