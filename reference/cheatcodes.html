@@ -195,6 +195,7 @@
     function etch(address who, bytes calldata code) external;
     // Sets an address' code
 
+    function expectRevert() external;
     function expectRevert(bytes calldata) external;
     function expectRevert(bytes4) external;
     // Expects an error on next call
@@ -408,6 +409,17 @@ This means, for example, we can call <code>cheats.prank(user)</code> immediately
 <p>An alternative version of <a href="#expectrevert"><code>expectRevert</code></a> that only takes an error type signature. Useful for custom error types that do not take parameters.</p>
 <pre><code class="language-solidity">cheats.expectRevert(MyContract.CustomError.selector)
 </code></pre>
+<h5 id="alternative-signature-without-error-message"><a class="header" href="#alternative-signature-without-error-message">Alternative Signature without error message</a></h5>
+<pre><code class="language-solidity">function expectRevert() external;
+</code></pre>
+<p>If you need to test that a function reverts <em>without</em> a message, you can do so with <code>expectRevert()</code>.</p>
+<h6 id="example-11"><a class="header" href="#example-11">Example</a></h6>
+<pre><code class="language-solidity">function testExpectRevertNoReason() public {
+    Reverter reverter = new Reverter();
+    cheats.expectRevert();
+    reverter.revertWithoutReason();
+}
+</code></pre>
 <br>
 <hr />
 <h4 id="record"><a class="header" href="#record"><code>record</code></a></h4>
@@ -419,7 +431,7 @@ This means, for example, we can call <code>cheats.prank(user)</code> immediately
 </code></pre>
 <p>Gets all storage slots that have been read (<code>reads</code>) or written to (<code>writes</code>) on an address.</p>
 <p>Note that <a href="#record"><code>record</code></a> must be called first.</p>
-<h5 id="example-11"><a class="header" href="#example-11">Example</a></h5>
+<h5 id="example-12"><a class="header" href="#example-12">Example</a></h5>
 <pre><code class="language-solidity">/// contract NumsContract {
 ///     uint256 public num1 = 100; // slot 0
 ///     uint256 public num2 = 200; // slot 1
@@ -542,7 +554,7 @@ This is because Solidity inserts an <code>extcodesize</code> check before some c
 <p>Expects at least one call to address <code>where</code> where the call data either strictly or loosely matches <code>data</code>.</p>
 <p>When a call is made to <code>where</code> the call data is first checked to see if it matches in its entirety with <code>data</code>. If not, the call data is checked to see if there is a partial match, with the match starting at the first byte of the call data.</p>
 <p>If the test terminates without the call being made, the test fails.</p>
-<h5 id="example-12"><a class="header" href="#example-12">Example</a></h5>
+<h5 id="example-13"><a class="header" href="#example-13">Example</a></h5>
 <pre><code class="language-solidity">bytes memory expectedData = abi.encodeWithSignature(&quot;fulfillRandomness(bytes32,uint256)&quot;, requestId, randomness);
 cheats.expectCall(address(awesomeContract), expectedData);
 vrfCoordinator.callBackWithRandomness(requestId, randomness, address(awesomeContract));
@@ -555,7 +567,7 @@ vrfCoordinator.callBackWithRandomness(requestId, randomness, address(awesomeCont
 </code></pre>
 <p>Returns the bytecode for a contract in the project given the path to the contract.</p>
 <p>The calldata parameter can either be in the form <code>ContractFile.sol</code> (if the filename and contract name are the same), <code>ContractFile.sol:ContractName</code>, or <code>./path/to/artifact.json</code></p>
-<h5 id="example-13"><a class="header" href="#example-13">Example</a></h5>
+<h5 id="example-14"><a class="header" href="#example-14">Example</a></h5>
 <pre><code class="language-solidity">MyContract myContract = new MyContract(arg1, arg2);
 
 // Let's do the same thing with `getCode`
@@ -592,7 +604,7 @@ assertEq0(address(myContract).code, anotherAddress.code); // [PASS]
 <p>If the boolean expression evaluates to false, discard the current fuzz inputs and start a new fuzz run.</p>
 <p>The <code>assume</code> cheatcode should mainly be used for very narrow checks. Broad checks will slow down tests as it will take a while to find valid values, and the test may fail if you hit the max number of rejects. You can configure the rejection thresholds by setting <a href="./config.html#fuzz_max_local_rejects"><code>fuzz_max_local_rejects</code></a> and <a href="./config.html#fuzz_max_global_rejects"><code>fuzz_max_global_rejects</code></a> in your <code>foundry.toml</code> file. More information on filtering via <code>assume</code> can be found <a href="https://altsysrq.github.io/proptest-book/proptest/tutorial/filtering.html#filtering">here</a>.</p>
 <p>For broad checks, such as ensuring a <code>uint256</code> falls within a certain range, you can bound your input with the modulo operator or Solmate's <a href="https://github.com/Rari-Capital/solmate/blob/a9e3ea26a2dc73bfa87f0cb189687d029028e0c5/src/test/utils/DSTestPlus.sol#L114-L133"><code>bound</code></a> method.</p>
-<h5 id="example-14"><a class="header" href="#example-14">Example</a></h5>
+<h5 id="example-15"><a class="header" href="#example-15">Example</a></h5>
 <pre><code class="language-solidity">// Good example of using assume
 function testX(uint256 a) public {
     cheats.assume(a != 1);
