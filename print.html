@@ -1117,6 +1117,11 @@ jobs:
 <div style="break-before: page; page-break-before: always;"></div><h2 id="shell-autocompletion"><a class="header" href="#shell-autocompletion">Shell Autocompletion</a></h2>
 <p>You can generate autocompletion shell scripts for <code>bash</code>, <code>elvish</code>, <code>fish</code>, <code>powershell</code>, and <code>zsh</code>.</p>
 <h3 id="zsh-oh-my-zsh"><a class="header" href="#zsh-oh-my-zsh">zsh (<code>oh-my-zsh</code>)</a></h3>
+<p>First, ensure that the following is present somewhere in your <code>~/.zshrc</code> file (if not, add it):</p>
+<pre><code class="language-sh">autoload -U compinit
+compinit -i
+</code></pre>
+<p>Then run:</p>
 <pre><code class="language-sh">mkdir -p $HOME/.oh-my-zsh/completions
 forge completions zsh &gt; $HOME/.oh-my-zsh/completions/_forge
 cast completions zsh &gt; $HOME/.oh-my-zsh/completions/_cast
