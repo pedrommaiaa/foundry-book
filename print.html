@@ -141,7 +141,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <p><img src="images/foundry-banner.png" alt="Foundry Banner" /></p>
+                        <img src="images/foundry-banner.png" style="border-radius: 20px">
 <p>Foundry is a smart contract development toolchain. Foundry manages your dependencies, compiles your project, runs tests, deploys, and lets you interact with the chain from the command-line.</p>
 <blockquote>
 <p>📖 <strong>Contributing</strong></p>
@@ -156,7 +156,7 @@
 <p>The overview will give you all you need to know about how to use <code>forge</code> to develop, test, and deploy smart contracts.</p>
 <p><strong><a href="cast">Cast Overview</a></strong></p>
 <p>Learn how to use <code>cast</code> to interact with smart contracts, send transactions, and get chain data from the command-line.</p>
-<p><strong><a href="config">Configuration</a></strong></p>
+<p><strong>Configuration</strong></p>
 <p>Guides on configuring Foundry.</p>
 <ul>
 <li><a href="./config/README.html">Configuring with <code>foundry.toml</code></a></li>
@@ -526,7 +526,6 @@ A good practice is to use something like <code>testCannot</code> in combination 
 </li>
 </ul>
 <br>
-<p>You may choose to use <code>constructor</code> for certain logic instead of <code>setUp</code>. Since <code>setUp</code> is invoked before each test case is run, it is most suitable for &quot;resetting&quot; the arrangement part of your tests. If you do not want certain things to be reset every time a test is ran, use <code>constructor</code> instead for those.</p>
 <p>Tests are deployed to <code>0xb4c79daB8f259C7Aee6E5b2Aa729821864227e84</code>. If you deploy a contract within your test, then <code>0xb4c...7e84</code> will be its deployer. If the contract deployed within a test gives special permissions to its deployer, such as <code>Ownable.sol</code>'s <code>onlyOwner</code> modifier, then the test contract <code>0xb4c...7e84</code> will have those permissions.</p>
 <p>It is possible to use other testing libraries or roll your own. For example, if you find yourself lacking a special type of assertion, you could extend <code>ds-test</code>.</p>
 <h3 id="shared-setups"><a class="header" href="#shared-setups">Shared setups</a></h3>
