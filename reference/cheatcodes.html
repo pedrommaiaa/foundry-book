@@ -443,7 +443,7 @@ emit log_uint(uint256(reads[0])); // 1
 <li>Emit the event we are supposed to see after the next call.</li>
 <li>Perform the call.</li>
 </ol>
-<p>If the event is not available in the current scope (e.g because we are using an interface, or an external smart contract), we can define the event ourselves with an identical event signature. </p>
+<p>If the event is not available in the current scope (e.g because we are using an interface, or an external smart contract), we can define the event ourselves with an identical event signature.</p>
 <p>The cheatcode does not check the origin of the event, but simply that it was emitted during that call.</p>
 <p>For example:</p>
 <pre><code class="language-solidity">event Transfer(address indexed from, address indexed to, uint256 amount);
@@ -580,7 +580,7 @@ assertEq0(address(myContract).code, anotherAddress.code); // [PASS]
 <br>
 <hr />
 <h4 id="label"><a class="header" href="#label"><code>label</code></a></h4>
-<pre><code class="language-solidity">function label(address addr, string label) external;
+<pre><code class="language-solidity">function label(address addr, string calldata label) external;
 </code></pre>
 <p>Sets a label <code>label</code> for <code>addr</code> in test traces.</p>
 <p>If an address is labelled, the label will show up in test traces instead of the address.</p>
