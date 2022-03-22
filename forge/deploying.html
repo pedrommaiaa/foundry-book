@@ -145,6 +145,7 @@
                     <main>
                         <h2 id="deploying"><a class="header" href="#deploying">Deploying</a></h2>
 <p>Forge can deploy smart contracts to a given network with the <code>forge create</code> command.</p>
+<p>Forge can deploy only one contract at a time.</p>
 <p>To deploy a contract, you must provide a RPC URL (env: <code>ETH_RPC_URL</code>) and the private key of the account that will deploy the contract.</p>
 <p>To deploy <code>MyContract</code> to a network:</p>
 <pre><code class="language-sh">$ forge create --rpc-url &lt;your_rpc_url&gt; --private-key &lt;your_private_key&gt; src/MyContract.sol:MyContract
@@ -154,6 +155,7 @@ Deployer: 0xa735b3c25f...
 Deployed to: 0x4054415432...
 Transaction hash: 0x6b4e0ff93a...
 </code></pre>
+<p>Solidity files may contain multiple contracts. <code>:MyContract</code> above specifies which contract to deploy from the <code>src/MyContract.sol</code> file.</p>
 <p>Use the <code>--constructor-args</code> flag to pass arguments to the constructor:</p>
 <pre><code class="language-solidity">pragma solidity ^0.8.0;
 import {ERC20} from &quot;solmate/tokens/ERC20.sol&quot;;
