@@ -1403,15 +1403,16 @@ block-number             Prints latest block number
 call                     Perform a local call to &lt;to&gt; without publishing a transaction.
 calldata                 Pack a signature and an argument list into hexadecimal calldata.
 chain                    Prints symbolic name of current blockchain by checking genesis hash
-chain-id                 returns ethereum chain id
+chain-id                 Returns ethereum chain id
 code                     Prints the bytecode at &lt;address&gt;
-completions              generate shell completions script
+completions              Generate shell completions script
 estimate                 Estimate the gas cost of a transaction from &lt;from&gt; to &lt;to&gt; with &lt;data&gt;
+find-block               Prints the block number closest to the provided timestamp
 gas-price                Prints current gas price of target chain
 help                     Print this message or the help of the given subcommand(s)
 keccak                   Keccak-256 hashes arbitrary data
 lookup-address           Returns the name the provided address resolves to
-namehash                 returns ENS namehash of provided name
+namehash                 Returns ENS namehash of provided name
 nonce                    Prints the number of transactions sent from &lt;address&gt;
 resolve-name             Returns the address the provided ENS name resolves to
 send                     Publish a transaction signed by &lt;from&gt; to call &lt;to&gt; with &lt;data&gt;
@@ -1803,12 +1804,23 @@ prints the bash completions script here...
 </code></pre>
 <br>
 <hr />
+<h4 id="find-block"><a class="header" href="#find-block"><code>find-block</code></a></h4>
+<pre><code class="language-ignore">cast find-block --rpc-url &lt;RPC_URL&gt; &lt;TIMESTAMP&gt;
+</code></pre>
+<p>env: <code>ETH_RPC_URL</code></p>
+<p>Prints the block number closest to the provided timestamp</p>
+<h5 id="example-31"><a class="header" href="#example-31">Example</a></h5>
+<pre><code class="language-bash">$ cast find-block --rpc-url &lt;RPC_URL&gt; &lt;TIMESTAMP&gt;
+13917761
+</code></pre>
+<br>
+<hr />
 <h4 id="gas-price"><a class="header" href="#gas-price"><code>gas-price</code></a></h4>
 <pre><code class="language-ignore">cast gas-price --rpc-url &lt;RPC_URL&gt;
 </code></pre>
 <p>env: <code>ETH_RPC_URL</code></p>
 <p>Print current gas price of target chain.</p>
-<h5 id="example-31"><a class="header" href="#example-31">Example</a></h5>
+<h5 id="example-32"><a class="header" href="#example-32">Example</a></h5>
 <pre><code class="language-bash">$ cast gas-price --rpc-url &lt;your_rpc_url&gt;
 89367836498
 </code></pre>
@@ -1818,7 +1830,7 @@ prints the bash completions script here...
 <pre><code class="language-ignore">cast keccak &lt;DATA&gt;
 </code></pre>
 <p>Keccak-256-hash arbitrary data.</p>
-<h5 id="example-32"><a class="header" href="#example-32">Example</a></h5>
+<h5 id="example-33"><a class="header" href="#example-33">Example</a></h5>
 <pre><code class="language-bash">$ cast keccak gm
 0x71b78290913af2addd8fcbe5766de306af2c8afbc466ca891e207f73638c7270
 </code></pre>
@@ -1830,7 +1842,7 @@ prints the bash completions script here...
 <p>env: <code>ETH_RPC_URL</code></p>
 <p>Where <code>[OPTIONS]</code> is <code>--verify</code> (do a forward resolution to ensure the address is correct)</p>
 <p>Get the ENS name an address resolves to.</p>
-<h5 id="example-33"><a class="header" href="#example-33">Example</a></h5>
+<h5 id="example-34"><a class="header" href="#example-34">Example</a></h5>
 <pre><code class="language-bash">$ cast lookup-address --rpc-url &lt;your_rpc_url&gt; 0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045
 vitalik.eth
 </code></pre>
@@ -1840,7 +1852,7 @@ vitalik.eth
 <pre><code class="language-ignore">cast namehash &lt;NAME&gt;
 </code></pre>
 <p>Print ENS namehash of a ENS name.</p>
-<h5 id="example-34"><a class="header" href="#example-34">Example</a></h5>
+<h5 id="example-35"><a class="header" href="#example-35">Example</a></h5>
 <pre><code class="language-bash">$ cast namehash &quot;vitalik.eth&quot;
 0xee6c4522aab0003e8d14cd40a6af439055fd2577951148c14b6cea9a53475835
 </code></pre>
@@ -1852,7 +1864,7 @@ vitalik.eth
 <p>env: <code>ETH_RPC_URL</code></p>
 <p>Where <code>[OPTIONS]</code> is <code>--block &lt;BLOCK&gt;</code> (the block you want to query, can also be <code>earliest</code>,<code>latest</code>,<code>pending</code>)</p>
 <p>Get the number of transactions sent from an address.</p>
-<h5 id="example-35"><a class="header" href="#example-35">Example</a></h5>
+<h5 id="example-36"><a class="header" href="#example-36">Example</a></h5>
 <pre><code class="language-bash">$ cast nonce --rpc-url &lt;your_rpc_url&gt; 0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045
 750
 </code></pre>
@@ -1863,7 +1875,7 @@ vitalik.eth
 </code></pre>
 <p>env: <code>ETH_RPC_URL</code></p>
 <p>Get the address an ENS name resolves to.</p>
-<h5 id="example-36"><a class="header" href="#example-36">Example</a></h5>
+<h5 id="example-37"><a class="header" href="#example-37">Example</a></h5>
 <pre><code class="language-bash">$ cast resolve-name --rpc-url &lt;your_rpc_url&gt; &quot;vitalik.eth&quot;
 0xd8da6bf26964af9d7eed9e03e53415d37aa96045
 </code></pre>
@@ -1890,7 +1902,7 @@ vitalik.eth
 <li><code>--trezor</code> (use your Trezor hardware wallet)</li>
 </ul>
 <p>Publish a transaction.</p>
-<h5 id="example-37"><a class="header" href="#example-37">Example</a></h5>
+<h5 id="example-38"><a class="header" href="#example-38">Example</a></h5>
 <pre><code class="language-bash">$ cast send --chain kovan --from &lt;your_address&gt; --interactive 0xd0A1E359811322d97991E03f863a0C30C2cF029C &quot;deposit()&quot; --value 0.1ether --rpc-url &lt;your_rpc_url&gt;
 Insert private key:
 
@@ -1904,7 +1916,7 @@ prints the transaction receipt...
 <p>env: <code>ETH_RPC_URL</code></p>
 <p>Where <code>[OPTIONS]</code> is <code>--block &lt;BLOCK&gt;</code> (the block you want to query, can also be <code>earliest</code>,<code>latest</code>,<code>pending</code>)</p>
 <p>Get the raw value of a contract's storage slot.</p>
-<h5 id="example-38"><a class="header" href="#example-38">Example</a></h5>
+<h5 id="example-39"><a class="header" href="#example-39">Example</a></h5>
 <pre><code class="language-bash">$ cast storage --rpc-url &lt;your_rpc_url&gt; 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2 0
 0x577261707065642045746865720000000000000000000000000000000000001a
 </code></pre>
@@ -1916,7 +1928,7 @@ prints the transaction receipt...
 <p>env: <code>ETH_RPC_URL</code></p>
 <p>Where <code>[OPTIONS]</code> are <code>--json</code></p>
 <p>Print information about a transaction or only one of its fields.</p>
-<h5 id="example-39"><a class="header" href="#example-39">Example</a></h5>
+<h5 id="example-40"><a class="header" href="#example-40">Example</a></h5>
 <pre><code class="language-bash">$ cast tx --rpc-url &lt;your_rpc_url&gt; 0xf85ece86f9dec5bfa0357606a6afe0d696290cefe117194c8226ed4adfe228e7
 accessList           []
 blockHash            &quot;0x185fc0bf17167beb2a82311ec3739d560cc9107bc109f0e8ab73daf86573d5b8&quot;
@@ -1953,28 +1965,28 @@ chainId              &quot;0x...
 <li><code>--private-key &lt;PRIVATE_KEY&gt;</code> (your private key string)</li>
 <li><code>--trezor</code> (use your Trezor hardware wallet)</li>
 </ul>
-<h5 id="example-40"><a class="header" href="#example-40">Example</a></h5>
+<h5 id="example-41"><a class="header" href="#example-41">Example</a></h5>
 <pre><code class="language-bash">cast wallet address --interactive
 Insert private key: &lt;PRIVATE_KEY&gt;
 
 Address: 0xBC084F73B100b50057a5175816a8ce8CfaF43b1C
 </code></pre>
 <p>Create a new public / private keypair with <code>new</code>.</p>
-<h5 id="example-41"><a class="header" href="#example-41">Example</a></h5>
+<h5 id="example-42"><a class="header" href="#example-42">Example</a></h5>
 <pre><code class="language-bash">$ cast wallet new
 Successfully created new keypair.
 Address: 0x19F4aB0c5ae1245F1E06798856815D82018AFE93
 Private Key: &lt;PRIVATE_KEY&gt;
 </code></pre>
 <p>Sign a message with <code>sign</code>.</p>
-<h5 id="example-42"><a class="header" href="#example-42">Example</a></h5>
+<h5 id="example-43"><a class="header" href="#example-43">Example</a></h5>
 <pre><code class="language-bash">$ cast wallet sign --interactive &quot;gm&quot;
 Insert private key:
 
 Signature: 0x22e3ad614cf53211b2ab164b4b46a39f878606f0c9e7b412c3ceb525f039fd1d50e72bdabaef42c295be0914d8c2b720001227d8c9f8d5e13103be65a0392acd1c
 </code></pre>
 <p>Create a new public / private keypair with a specific prefix with <code>vanity</code>.</p>
-<h5 id="example-43"><a class="header" href="#example-43">Example</a></h5>
+<h5 id="example-44"><a class="header" href="#example-44">Example</a></h5>
 <pre><code class="language-bash">$ cast wallet vanity --starts-with beef
 Starting to generate vanity address...
 Successfully created new keypair in 3 seconds.
@@ -1982,7 +1994,7 @@ Address: 0xBEEf111188257c2008271dBD193999FD1516d787
 Private Key: &lt;PRIVATE_KEY&gt;
 </code></pre>
 <p>Verify the signature on a message with <code>verify</code>.</p>
-<h5 id="example-44"><a class="header" href="#example-44">Example</a></h5>
+<h5 id="example-45"><a class="header" href="#example-45">Example</a></h5>
 <pre><code class="language-bash">$ cast wallet verify --address 0xBEEf111188257c2008271dBD193999FD1516d787 &quot;gm&quot; 0x22e3ad614cf53211b2ab164b4b46a39f878606f0c9e7b412c3ceb525f0
 39fd1d50e72bdabaef42c295be0914d8c2b720001227d8c9f8d5e13103be65a0392acd1c
 Validation success. Address 0xBEEf111188257c2008271dBD193999FD1516d787 signed this message.
@@ -2330,7 +2342,7 @@ event log_named_string       (string key, string val);
 <h4 id="log"><a class="header" href="#log"><code>log</code></a></h4>
 <pre><code class="language-solidity">event log(string);
 </code></pre>
-<h5 id="example-45"><a class="header" href="#example-45">Example</a></h5>
+<h5 id="example-46"><a class="header" href="#example-46">Example</a></h5>
 <pre><code class="language-solidity">emit log(&quot;here&quot;);
 // here
 </code></pre>
@@ -2339,7 +2351,7 @@ event log_named_string       (string key, string val);
 <h4 id="logs"><a class="header" href="#logs">logs</a></h4>
 <pre><code class="language-solidity">event logs(bytes);
 </code></pre>
-<h5 id="example-46"><a class="header" href="#example-46">Example</a></h5>
+<h5 id="example-47"><a class="header" href="#example-47">Example</a></h5>
 <pre><code class="language-solidity">emit logs(bytes(&quot;abcd&quot;));
 // 0x6162636400000000000000000000000000000000000000000000000000000000
 </code></pre>
@@ -2349,7 +2361,7 @@ event log_named_string       (string key, string val);
 <pre><code class="language-solidity">event log_&lt;type&gt;(&lt;type&gt;);
 </code></pre>
 <p>Where <code>&lt;type&gt;</code> can be <code>address</code>, <code>bytes32</code>, <code>int</code>, <code>uint</code>, <code>bytes</code>, <code>string</code></p>
-<h5 id="example-47"><a class="header" href="#example-47">Example</a></h5>
+<h5 id="example-48"><a class="header" href="#example-48">Example</a></h5>
 <pre><code class="language-solidity">uint256 amount = 1 ether;
 emit log_uint(amount);
 // 1000000000000000000
@@ -2360,7 +2372,7 @@ emit log_uint(amount);
 <pre><code class="language-solidity">event log_named_&lt;type&gt;(string key, &lt;type&gt; val);
 </code></pre>
 <p>Where <code>&lt;type&gt;</code> can be <code>address</code>, <code>bytes32</code>, <code>int</code>, <code>uint</code>, <code>bytes</code>, <code>string</code></p>
-<h5 id="example-48"><a class="header" href="#example-48">Example</a></h5>
+<h5 id="example-49"><a class="header" href="#example-49">Example</a></h5>
 <pre><code class="language-solidity">uint256 amount = 1 ether;
 emit log_named_uint(&quot;Amount: &quot;, amount);
 // amount: 1000000000000000000
@@ -2371,7 +2383,7 @@ emit log_named_uint(&quot;Amount: &quot;, amount);
 <pre><code class="language-solidity">event log_named_decimal_&lt;type&gt;(string key, &lt;type&gt; val, uint decimals);
 </code></pre>
 <p>Where <code>&lt;type&gt;</code> can be <code>int</code>, <code>uint</code></p>
-<h5 id="example-49"><a class="header" href="#example-49">Example</a></h5>
+<h5 id="example-50"><a class="header" href="#example-50">Example</a></h5>
 <pre><code class="language-solidity">uint256 amount = 1 ether;
 emit log_named_decimal_uint(&quot;Amount: &quot;, amount, 18);
 // amount: 1.000000000000000000
@@ -2448,7 +2460,7 @@ function assertLeDecimal(uint a, uint b, uint decimals, string memory err) inter
 <pre><code class="language-solidity">function assertTrue(bool condition) internal;
 </code></pre>
 <p>Asserts the <code>condition</code> is true.</p>
-<h5 id="example-50"><a class="header" href="#example-50">Example</a></h5>
+<h5 id="example-51"><a class="header" href="#example-51">Example</a></h5>
 <pre><code class="language-solidity">bool success = contract.fun();
 assertTrue(success);
 </code></pre>
@@ -2459,7 +2471,7 @@ assertTrue(success);
 </code></pre>
 <p>Where <code>&lt;type&gt;</code> can be <code>address</code>, <code>bytes32</code>, <code>int</code>, <code>uint</code></p>
 <p>Asserts <code>a</code> is equal to <code>b</code>.</p>
-<h5 id="example-51"><a class="header" href="#example-51">Example</a></h5>
+<h5 id="example-52"><a class="header" href="#example-52">Example</a></h5>
 <pre><code class="language-solidity">uint256 a = 1 ether;
 uint256 b = 1e18 wei;
 assertEq(a, b);
@@ -2471,7 +2483,7 @@ assertEq(a, b);
 </code></pre>
 <p>Where <code>&lt;type&gt;</code> can be <code>int</code>, <code>uint</code></p>
 <p>Asserts <code>a</code> is equal to <code>b</code>.</p>
-<h5 id="example-52"><a class="header" href="#example-52">Example</a></h5>
+<h5 id="example-53"><a class="header" href="#example-53">Example</a></h5>
 <pre><code class="language-solidity">uint256 a = 1 ether;
 uint256 b = 1e18 wei;
 assertEqDecimal(a, b, 18);
@@ -2482,7 +2494,7 @@ assertEqDecimal(a, b, 18);
 <pre><code class="language-solidity">function assertEq32(bytes32 a, bytes32 b) internal;
 </code></pre>
 <p>Asserts <code>a</code> is equal to <code>b</code>.</p>
-<h5 id="example-53"><a class="header" href="#example-53">Example</a></h5>
+<h5 id="example-54"><a class="header" href="#example-54">Example</a></h5>
 <pre><code class="language-solidity">assertEq(bytes32(&quot;abcd&quot;), 0x6162636400000000000000000000000000000000000000000000000000000000);
 </code></pre>
 <br>
@@ -2491,7 +2503,7 @@ assertEqDecimal(a, b, 18);
 <pre><code class="language-solidity">function assertEq0(bytes a, bytes b) internal;
 </code></pre>
 <p>Asserts <code>a</code> is equal to <code>b</code>.</p>
-<h5 id="example-54"><a class="header" href="#example-54">Example</a></h5>
+<h5 id="example-55"><a class="header" href="#example-55">Example</a></h5>
 <pre><code class="language-solidity">string memory name1 = &quot;Alice&quot;;
 string memory name2 = &quot;Bob&quot;;
 assertEq0(bytes(name1), bytes(name2)); // [FAIL]
@@ -2503,7 +2515,7 @@ assertEq0(bytes(name1), bytes(name2)); // [FAIL]
 </code></pre>
 <p>Where <code>&lt;type&gt;</code> can be <code>int</code>, <code>uint</code></p>
 <p>Asserts  <code>a</code> is greater than <code>b</code>.</p>
-<h5 id="example-55"><a class="header" href="#example-55">Example</a></h5>
+<h5 id="example-56"><a class="header" href="#example-56">Example</a></h5>
 <pre><code class="language-solidity">uint256 a = 2 ether;
 uint256 b = 1e18 wei;
 assertGt(a, b);
@@ -2515,7 +2527,7 @@ assertGt(a, b);
 </code></pre>
 <p>Where <code>&lt;type&gt;</code> can be <code>int</code>, <code>uint</code></p>
 <p>Asserts  <code>a</code> is greater than <code>b</code>.</p>
-<h5 id="example-56"><a class="header" href="#example-56">Example</a></h5>
+<h5 id="example-57"><a class="header" href="#example-57">Example</a></h5>
 <pre><code class="language-solidity">uint256 a = 2 ether;
 uint256 b = 1e18 wei;
 assertGtDecimal(a, b, 18);
@@ -2527,7 +2539,7 @@ assertGtDecimal(a, b, 18);
 </code></pre>
 <p>Where <code>&lt;type&gt;</code> can be <code>int</code>, <code>uint</code></p>
 <p>Asserts  <code>a</code> is greater than or equal to <code>b</code>.</p>
-<h5 id="example-57"><a class="header" href="#example-57">Example</a></h5>
+<h5 id="example-58"><a class="header" href="#example-58">Example</a></h5>
 <pre><code class="language-solidity">uint256 a = 1 ether;
 uint256 b = 1e18 wei;
 assertGe(a, b);
@@ -2539,7 +2551,7 @@ assertGe(a, b);
 </code></pre>
 <p>Where <code>&lt;type&gt;</code> can be <code>int</code>, <code>uint</code></p>
 <p>Asserts  <code>a</code> is greater than or equal to <code>b</code>.</p>
-<h5 id="example-58"><a class="header" href="#example-58">Example</a></h5>
+<h5 id="example-59"><a class="header" href="#example-59">Example</a></h5>
 <pre><code class="language-solidity">uint256 a = 1 ether;
 uint256 b = 1e18 wei;
 assertGeDecimal(a, b, 18);
@@ -2551,7 +2563,7 @@ assertGeDecimal(a, b, 18);
 </code></pre>
 <p>Where <code>&lt;type&gt;</code> can be <code>int</code>, <code>uint</code></p>
 <p>Asserts  <code>a</code> is lesser than <code>b</code>.</p>
-<h5 id="example-59"><a class="header" href="#example-59">Example</a></h5>
+<h5 id="example-60"><a class="header" href="#example-60">Example</a></h5>
 <pre><code class="language-solidity">uint256 a = 1 ether;
 uint256 b = 2e18 wei;
 assertLt(a, b);
@@ -2563,7 +2575,7 @@ assertLt(a, b);
 </code></pre>
 <p>Where <code>&lt;type&gt;</code> can be <code>int</code>, <code>uint</code></p>
 <p>Asserts  <code>a</code> is lesser than <code>b</code>.</p>
-<h5 id="example-60"><a class="header" href="#example-60">Example</a></h5>
+<h5 id="example-61"><a class="header" href="#example-61">Example</a></h5>
 <pre><code class="language-solidity">uint256 a = 1 ether;
 uint256 b = 2e18 wei;
 assertLtDecimal(a, b, 18);
@@ -2575,7 +2587,7 @@ assertLtDecimal(a, b, 18);
 </code></pre>
 <p>Where <code>&lt;type&gt;</code> can be <code>int</code>, <code>uint</code></p>
 <p>Asserts  <code>a</code> is lesser than or equal to <code>b</code>.</p>
-<h5 id="example-61"><a class="header" href="#example-61">Example</a></h5>
+<h5 id="example-62"><a class="header" href="#example-62">Example</a></h5>
 <pre><code class="language-solidity">uint256 a = 1 ether;
 uint256 b = 1e18 wei;
 assertLe(a, b);
@@ -2587,7 +2599,7 @@ assertLe(a, b);
 </code></pre>
 <p>Where <code>&lt;type&gt;</code> can be <code>int</code>, <code>uint</code></p>
 <p>Asserts  <code>a</code> is lesser than or equal to <code>b</code>.</p>
-<h5 id="example-62"><a class="header" href="#example-62">Example</a></h5>
+<h5 id="example-63"><a class="header" href="#example-63">Example</a></h5>
 <pre><code class="language-solidity">uint256 a = 1 ether;
 uint256 b = 1e18 wei;
 assertLeDecimal(a, b, 18);
@@ -2694,7 +2706,7 @@ assertLeDecimal(a, b, 18);
 <pre><code class="language-solidity">function warp(uint256) external;
 </code></pre>
 <p>Sets <code>block.timestamp</code>.</p>
-<h5 id="example-63"><a class="header" href="#example-63">Example</a></h5>
+<h5 id="example-64"><a class="header" href="#example-64">Example</a></h5>
 <pre><code class="language-solidity">cheats.warp(1641070800);
 emit log_uint(block.timestamp); // 1641070800
 </code></pre>
@@ -2704,7 +2716,7 @@ emit log_uint(block.timestamp); // 1641070800
 <pre><code class="language-solidity">function roll(uint256) external;
 </code></pre>
 <p>Sets <code>block.number</code>.</p>
-<h5 id="example-64"><a class="header" href="#example-64">Example</a></h5>
+<h5 id="example-65"><a class="header" href="#example-65">Example</a></h5>
 <pre><code class="language-solidity">cheats.roll(100);
 emit log_uint(block.number); // 100
 </code></pre>
@@ -2714,7 +2726,7 @@ emit log_uint(block.number); // 100
 <pre><code class="language-solidity">function fee(uint256) external;
 </code></pre>
 <p>Sets <code>block.basefee</code>.</p>
-<h5 id="example-65"><a class="header" href="#example-65">Example</a></h5>
+<h5 id="example-66"><a class="header" href="#example-66">Example</a></h5>
 <pre><code class="language-solidity">cheats.fee(25 gwei);
 emit log_uint(block.basefee); // 25000000000
 </code></pre>
@@ -2724,7 +2736,7 @@ emit log_uint(block.basefee); // 25000000000
 <pre><code class="language-solidity">function load(address account, bytes32 slot) external returns (bytes32);
 </code></pre>
 <p>Loads the value from storage slot <code>slot</code> on account <code>account</code>.</p>
-<h5 id="example-66"><a class="header" href="#example-66">Example</a></h5>
+<h5 id="example-67"><a class="header" href="#example-67">Example</a></h5>
 <pre><code class="language-solidity">/// contract LeetContract {
 ///     uint256 private leet = 1337; // slot 0
 /// }
@@ -2738,7 +2750,7 @@ emit log_uint(uint256(leet)); // 1337
 <pre><code class="language-solidity">function store(address account, bytes32 slot, bytes32 value) external;
 </code></pre>
 <p>Stores the value <code>value</code> in storage slot <code>slot</code> on account <code>account</code>.</p>
-<h5 id="example-67"><a class="header" href="#example-67">Example</a></h5>
+<h5 id="example-68"><a class="header" href="#example-68">Example</a></h5>
 <pre><code class="language-solidity">/// contract LeetContract {
 ///     uint256 private leet = 1337; // slot 0
 /// }
@@ -2754,7 +2766,7 @@ emit log_uint(uint256(leet)); // 31337
 </code></pre>
 <p>Signs a digest <code>digest</code> with private key <code>privateKey</code>, returning <code>(v, r, s)</code>.</p>
 <p>This is useful for testing functions that take signed data and perform an <code>ecrecover</code> to verify the signer.</p>
-<h5 id="example-68"><a class="header" href="#example-68">Example</a></h5>
+<h5 id="example-69"><a class="header" href="#example-69">Example</a></h5>
 <pre><code class="language-solidity">address alice = cheats.addr(1);
 bytes32 hash = keccak256(&quot;Signed by Alice&quot;);
 (uint8 v, bytes32 r, bytes32 s) = cheats.sign(1, hash);
@@ -2767,7 +2779,7 @@ assertEq(alice, signer); // [PASS]
 <pre><code class="language-solidity">function addr(uint256 privateKey) external returns (address);
 </code></pre>
 <p>Computes the address for a given private key.</p>
-<h5 id="example-69"><a class="header" href="#example-69">Example</a></h5>
+<h5 id="example-70"><a class="header" href="#example-70">Example</a></h5>
 <pre><code class="language-solidity">address alice = cheats.addr(1);
 emit log_address(alice); // 0x7e5f4552091a69125d5dfcb7b8c2659029395bdf
 </code></pre>
@@ -2778,7 +2790,7 @@ emit log_address(alice); // 0x7e5f4552091a69125d5dfcb7b8c2659029395bdf
 </code></pre>
 <p>Calls an arbitrary command if <a href="reference/./config.html#ffi"><code>ffi</code></a> is enabled.</p>
 <p>It is generally advised to use this cheat code as a last resort, and to not enable it by default, as anyone who can change the tests of a project will be able to execute arbitrary commands on devices that run the tests.</p>
-<h5 id="example-70"><a class="header" href="#example-70">Example</a></h5>
+<h5 id="example-71"><a class="header" href="#example-71">Example</a></h5>
 <pre><code class="language-solidity">string[] memory inputs = new string[](3);
 inputs[0] = &quot;echo&quot;;
 inputs[1] = &quot;-n&quot;;
@@ -2795,7 +2807,7 @@ assertEq(output, &quot;gm&quot;);
 <pre><code class="language-solidity">function prank(address) external;
 </code></pre>
 <p>Sets <code>msg.sender</code> to the specified address <strong>for the next call</strong>. &quot;The next call&quot; includes static calls as well, but not calls to the cheat code address.</p>
-<h5 id="example-71"><a class="header" href="#example-71">Example</a></h5>
+<h5 id="example-72"><a class="header" href="#example-72">Example</a></h5>
 <pre><code class="language-solidity">/// function withdraw() public {
 ///     require(msg.sender == owner);
 
@@ -2824,7 +2836,7 @@ myContract.withdraw(); // [PASS]
 <pre><code class="language-solidity">function deal(address who, uint256 newBalance) external;
 </code></pre>
 <p>Sets the balance of an address <code>who</code> to <code>newBalance</code>.</p>
-<h5 id="example-72"><a class="header" href="#example-72">Example</a></h5>
+<h5 id="example-73"><a class="header" href="#example-73">Example</a></h5>
 <pre><code class="language-solidity">address alice = address(1);
 cheats.deal(alice, 1 ether);
 log_uint256(alice.balance); // 1000000000000000000
@@ -2835,7 +2847,7 @@ log_uint256(alice.balance); // 1000000000000000000
 <pre><code class="language-solidity">function etch(address who, bytes calldata code) external;
 </code></pre>
 <p>Sets the bytecode of an address <code>who</code> to <code>code</code>.</p>
-<h5 id="example-73"><a class="header" href="#example-73">Example</a></h5>
+<h5 id="example-74"><a class="header" href="#example-74">Example</a></h5>
 <pre><code class="language-solidity">address code = address(awesomeContract).code;
 address targetAddr = address(1);
 cheats.etch(targetAddr, code);
@@ -2867,7 +2879,7 @@ This means, for example, we can call <code>cheats.prank(user)</code> immediately
 <pre><code class="language-solidity">function expectRevert() external;
 </code></pre>
 <p>If you need to test that a function reverts <em>without</em> a message, you can do so with <code>expectRevert()</code>.</p>
-<h6 id="example-74"><a class="header" href="#example-74">Example</a></h6>
+<h6 id="example-75"><a class="header" href="#example-75">Example</a></h6>
 <pre><code class="language-solidity">function testExpectRevertNoReason() public {
     Reverter reverter = new Reverter();
     cheats.expectRevert();
@@ -2885,7 +2897,7 @@ This means, for example, we can call <code>cheats.prank(user)</code> immediately
 </code></pre>
 <p>Gets all storage slots that have been read (<code>reads</code>) or written to (<code>writes</code>) on an address.</p>
 <p>Note that <a href="reference/cheatcodes.html#record"><code>record</code></a> must be called first.</p>
-<h5 id="example-75"><a class="header" href="#example-75">Example</a></h5>
+<h5 id="example-76"><a class="header" href="#example-76">Example</a></h5>
 <pre><code class="language-solidity">/// contract NumsContract {
 ///     uint256 public num1 = 100; // slot 0
 ///     uint256 public num2 = 200; // slot 1
@@ -3008,7 +3020,7 @@ This is because Solidity inserts an <code>extcodesize</code> check before some c
 <p>Expects at least one call to address <code>where</code> where the call data either strictly or loosely matches <code>data</code>.</p>
 <p>When a call is made to <code>where</code> the call data is first checked to see if it matches in its entirety with <code>data</code>. If not, the call data is checked to see if there is a partial match, with the match starting at the first byte of the call data.</p>
 <p>If the test terminates without the call being made, the test fails.</p>
-<h5 id="example-76"><a class="header" href="#example-76">Example</a></h5>
+<h5 id="example-77"><a class="header" href="#example-77">Example</a></h5>
 <pre><code class="language-solidity">bytes memory expectedData = abi.encodeWithSignature(&quot;fulfillRandomness(bytes32,uint256)&quot;, requestId, randomness);
 cheats.expectCall(address(awesomeContract), expectedData);
 vrfCoordinator.callBackWithRandomness(requestId, randomness, address(awesomeContract));
@@ -3021,7 +3033,7 @@ vrfCoordinator.callBackWithRandomness(requestId, randomness, address(awesomeCont
 </code></pre>
 <p>Returns the bytecode for a contract in the project given the path to the contract.</p>
 <p>The calldata parameter can either be in the form <code>ContractFile.sol</code> (if the filename and contract name are the same), <code>ContractFile.sol:ContractName</code>, or <code>./path/to/artifact.json</code></p>
-<h5 id="example-77"><a class="header" href="#example-77">Example</a></h5>
+<h5 id="example-78"><a class="header" href="#example-78">Example</a></h5>
 <pre><code class="language-solidity">MyContract myContract = new MyContract(arg1, arg2);
 
 // Let's do the same thing with `getCode`
@@ -3058,7 +3070,7 @@ assertEq0(address(myContract).code, anotherAddress.code); // [PASS]
 <p>If the boolean expression evaluates to false, discard the current fuzz inputs and start a new fuzz run.</p>
 <p>The <code>assume</code> cheatcode should mainly be used for very narrow checks. Broad checks will slow down tests as it will take a while to find valid values, and the test may fail if you hit the max number of rejects. You can configure the rejection thresholds by setting <a href="reference/./config.html#fuzz_max_local_rejects"><code>fuzz_max_local_rejects</code></a> and <a href="reference/./config.html#fuzz_max_global_rejects"><code>fuzz_max_global_rejects</code></a> in your <code>foundry.toml</code> file. More information on filtering via <code>assume</code> can be found <a href="https://altsysrq.github.io/proptest-book/proptest/tutorial/filtering.html#filtering">here</a>.</p>
 <p>For broad checks, such as ensuring a <code>uint256</code> falls within a certain range, you can bound your input with the modulo operator or Solmate's <a href="https://github.com/Rari-Capital/solmate/blob/a9e3ea26a2dc73bfa87f0cb189687d029028e0c5/src/test/utils/DSTestPlus.sol#L114-L133"><code>bound</code></a> method.</p>
-<h5 id="example-78"><a class="header" href="#example-78">Example</a></h5>
+<h5 id="example-79"><a class="header" href="#example-79">Example</a></h5>
 <pre><code class="language-solidity">// Good example of using assume
 function testX(uint256 a) public {
     cheats.assume(a != 1);

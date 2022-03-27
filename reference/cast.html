@@ -182,15 +182,16 @@ block-number             Prints latest block number
 call                     Perform a local call to &lt;to&gt; without publishing a transaction.
 calldata                 Pack a signature and an argument list into hexadecimal calldata.
 chain                    Prints symbolic name of current blockchain by checking genesis hash
-chain-id                 returns ethereum chain id
+chain-id                 Returns ethereum chain id
 code                     Prints the bytecode at &lt;address&gt;
-completions              generate shell completions script
+completions              Generate shell completions script
 estimate                 Estimate the gas cost of a transaction from &lt;from&gt; to &lt;to&gt; with &lt;data&gt;
+find-block               Prints the block number closest to the provided timestamp
 gas-price                Prints current gas price of target chain
 help                     Print this message or the help of the given subcommand(s)
 keccak                   Keccak-256 hashes arbitrary data
 lookup-address           Returns the name the provided address resolves to
-namehash                 returns ENS namehash of provided name
+namehash                 Returns ENS namehash of provided name
 nonce                    Prints the number of transactions sent from &lt;address&gt;
 resolve-name             Returns the address the provided ENS name resolves to
 send                     Publish a transaction signed by &lt;from&gt; to call &lt;to&gt; with &lt;data&gt;
@@ -582,12 +583,23 @@ prints the bash completions script here...
 </code></pre>
 <br>
 <hr />
+<h4 id="find-block"><a class="header" href="#find-block"><code>find-block</code></a></h4>
+<pre><code class="language-ignore">cast find-block --rpc-url &lt;RPC_URL&gt; &lt;TIMESTAMP&gt;
+</code></pre>
+<p>env: <code>ETH_RPC_URL</code></p>
+<p>Prints the block number closest to the provided timestamp</p>
+<h5 id="example-31"><a class="header" href="#example-31">Example</a></h5>
+<pre><code class="language-bash">$ cast find-block --rpc-url &lt;RPC_URL&gt; &lt;TIMESTAMP&gt;
+13917761
+</code></pre>
+<br>
+<hr />
 <h4 id="gas-price"><a class="header" href="#gas-price"><code>gas-price</code></a></h4>
 <pre><code class="language-ignore">cast gas-price --rpc-url &lt;RPC_URL&gt;
 </code></pre>
 <p>env: <code>ETH_RPC_URL</code></p>
 <p>Print current gas price of target chain.</p>
-<h5 id="example-31"><a class="header" href="#example-31">Example</a></h5>
+<h5 id="example-32"><a class="header" href="#example-32">Example</a></h5>
 <pre><code class="language-bash">$ cast gas-price --rpc-url &lt;your_rpc_url&gt;
 89367836498
 </code></pre>
@@ -597,7 +609,7 @@ prints the bash completions script here...
 <pre><code class="language-ignore">cast keccak &lt;DATA&gt;
 </code></pre>
 <p>Keccak-256-hash arbitrary data.</p>
-<h5 id="example-32"><a class="header" href="#example-32">Example</a></h5>
+<h5 id="example-33"><a class="header" href="#example-33">Example</a></h5>
 <pre><code class="language-bash">$ cast keccak gm
 0x71b78290913af2addd8fcbe5766de306af2c8afbc466ca891e207f73638c7270
 </code></pre>
@@ -609,7 +621,7 @@ prints the bash completions script here...
 <p>env: <code>ETH_RPC_URL</code></p>
 <p>Where <code>[OPTIONS]</code> is <code>--verify</code> (do a forward resolution to ensure the address is correct)</p>
 <p>Get the ENS name an address resolves to.</p>
-<h5 id="example-33"><a class="header" href="#example-33">Example</a></h5>
+<h5 id="example-34"><a class="header" href="#example-34">Example</a></h5>
 <pre><code class="language-bash">$ cast lookup-address --rpc-url &lt;your_rpc_url&gt; 0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045
 vitalik.eth
 </code></pre>
@@ -619,7 +631,7 @@ vitalik.eth
 <pre><code class="language-ignore">cast namehash &lt;NAME&gt;
 </code></pre>
 <p>Print ENS namehash of a ENS name.</p>
-<h5 id="example-34"><a class="header" href="#example-34">Example</a></h5>
+<h5 id="example-35"><a class="header" href="#example-35">Example</a></h5>
 <pre><code class="language-bash">$ cast namehash &quot;vitalik.eth&quot;
 0xee6c4522aab0003e8d14cd40a6af439055fd2577951148c14b6cea9a53475835
 </code></pre>
@@ -631,7 +643,7 @@ vitalik.eth
 <p>env: <code>ETH_RPC_URL</code></p>
 <p>Where <code>[OPTIONS]</code> is <code>--block &lt;BLOCK&gt;</code> (the block you want to query, can also be <code>earliest</code>,<code>latest</code>,<code>pending</code>)</p>
 <p>Get the number of transactions sent from an address.</p>
-<h5 id="example-35"><a class="header" href="#example-35">Example</a></h5>
+<h5 id="example-36"><a class="header" href="#example-36">Example</a></h5>
 <pre><code class="language-bash">$ cast nonce --rpc-url &lt;your_rpc_url&gt; 0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045
 750
 </code></pre>
@@ -642,7 +654,7 @@ vitalik.eth
 </code></pre>
 <p>env: <code>ETH_RPC_URL</code></p>
 <p>Get the address an ENS name resolves to.</p>
-<h5 id="example-36"><a class="header" href="#example-36">Example</a></h5>
+<h5 id="example-37"><a class="header" href="#example-37">Example</a></h5>
 <pre><code class="language-bash">$ cast resolve-name --rpc-url &lt;your_rpc_url&gt; &quot;vitalik.eth&quot;
 0xd8da6bf26964af9d7eed9e03e53415d37aa96045
 </code></pre>
@@ -669,7 +681,7 @@ vitalik.eth
 <li><code>--trezor</code> (use your Trezor hardware wallet)</li>
 </ul>
 <p>Publish a transaction.</p>
-<h5 id="example-37"><a class="header" href="#example-37">Example</a></h5>
+<h5 id="example-38"><a class="header" href="#example-38">Example</a></h5>
 <pre><code class="language-bash">$ cast send --chain kovan --from &lt;your_address&gt; --interactive 0xd0A1E359811322d97991E03f863a0C30C2cF029C &quot;deposit()&quot; --value 0.1ether --rpc-url &lt;your_rpc_url&gt;
 Insert private key:
 
@@ -683,7 +695,7 @@ prints the transaction receipt...
 <p>env: <code>ETH_RPC_URL</code></p>
 <p>Where <code>[OPTIONS]</code> is <code>--block &lt;BLOCK&gt;</code> (the block you want to query, can also be <code>earliest</code>,<code>latest</code>,<code>pending</code>)</p>
 <p>Get the raw value of a contract's storage slot.</p>
-<h5 id="example-38"><a class="header" href="#example-38">Example</a></h5>
+<h5 id="example-39"><a class="header" href="#example-39">Example</a></h5>
 <pre><code class="language-bash">$ cast storage --rpc-url &lt;your_rpc_url&gt; 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2 0
 0x577261707065642045746865720000000000000000000000000000000000001a
 </code></pre>
@@ -695,7 +707,7 @@ prints the transaction receipt...
 <p>env: <code>ETH_RPC_URL</code></p>
 <p>Where <code>[OPTIONS]</code> are <code>--json</code></p>
 <p>Print information about a transaction or only one of its fields.</p>
-<h5 id="example-39"><a class="header" href="#example-39">Example</a></h5>
+<h5 id="example-40"><a class="header" href="#example-40">Example</a></h5>
 <pre><code class="language-bash">$ cast tx --rpc-url &lt;your_rpc_url&gt; 0xf85ece86f9dec5bfa0357606a6afe0d696290cefe117194c8226ed4adfe228e7
 accessList           []
 blockHash            &quot;0x185fc0bf17167beb2a82311ec3739d560cc9107bc109f0e8ab73daf86573d5b8&quot;
@@ -732,28 +744,28 @@ chainId              &quot;0x...
 <li><code>--private-key &lt;PRIVATE_KEY&gt;</code> (your private key string)</li>
 <li><code>--trezor</code> (use your Trezor hardware wallet)</li>
 </ul>
-<h5 id="example-40"><a class="header" href="#example-40">Example</a></h5>
+<h5 id="example-41"><a class="header" href="#example-41">Example</a></h5>
 <pre><code class="language-bash">cast wallet address --interactive
 Insert private key: &lt;PRIVATE_KEY&gt;
 
 Address: 0xBC084F73B100b50057a5175816a8ce8CfaF43b1C
 </code></pre>
 <p>Create a new public / private keypair with <code>new</code>.</p>
-<h5 id="example-41"><a class="header" href="#example-41">Example</a></h5>
+<h5 id="example-42"><a class="header" href="#example-42">Example</a></h5>
 <pre><code class="language-bash">$ cast wallet new
 Successfully created new keypair.
 Address: 0x19F4aB0c5ae1245F1E06798856815D82018AFE93
 Private Key: &lt;PRIVATE_KEY&gt;
 </code></pre>
 <p>Sign a message with <code>sign</code>.</p>
-<h5 id="example-42"><a class="header" href="#example-42">Example</a></h5>
+<h5 id="example-43"><a class="header" href="#example-43">Example</a></h5>
 <pre><code class="language-bash">$ cast wallet sign --interactive &quot;gm&quot;
 Insert private key:
 
 Signature: 0x22e3ad614cf53211b2ab164b4b46a39f878606f0c9e7b412c3ceb525f039fd1d50e72bdabaef42c295be0914d8c2b720001227d8c9f8d5e13103be65a0392acd1c
 </code></pre>
 <p>Create a new public / private keypair with a specific prefix with <code>vanity</code>.</p>
-<h5 id="example-43"><a class="header" href="#example-43">Example</a></h5>
+<h5 id="example-44"><a class="header" href="#example-44">Example</a></h5>
 <pre><code class="language-bash">$ cast wallet vanity --starts-with beef
 Starting to generate vanity address...
 Successfully created new keypair in 3 seconds.
@@ -761,7 +773,7 @@ Address: 0xBEEf111188257c2008271dBD193999FD1516d787
 Private Key: &lt;PRIVATE_KEY&gt;
 </code></pre>
 <p>Verify the signature on a message with <code>verify</code>.</p>
-<h5 id="example-44"><a class="header" href="#example-44">Example</a></h5>
+<h5 id="example-45"><a class="header" href="#example-45">Example</a></h5>
 <pre><code class="language-bash">$ cast wallet verify --address 0xBEEf111188257c2008271dBD193999FD1516d787 &quot;gm&quot; 0x22e3ad614cf53211b2ab164b4b46a39f878606f0c9e7b412c3ceb525f0
 39fd1d50e72bdabaef42c295be0914d8c2b720001227d8c9f8d5e13103be65a0392acd1c
 Validation success. Address 0xBEEf111188257c2008271dBD193999FD1516d787 signed this message.
