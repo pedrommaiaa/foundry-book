@@ -403,6 +403,18 @@ log_bytes(address(targetAddr).code); // 0x6080604052348015610010...
 </code></pre>
 <p>After calling <code>cheats.expectRevert()</code>, calls to other cheat codes before the reverting call are ignored.
 This means, for example, we can call <code>cheats.prank(user)</code> immediately before the reverting call.</p>
+<h5 id="usage-with-low-level-calls"><a class="header" href="#usage-with-low-level-calls">Usage with low-level calls</a></h5>
+<p>Normally, a call that succeeds returns a status of <code>true</code> (along with any return data) and a call that reverts returns <code>false</code>.
+Standard Solidity calls check the return status of each call, and revert if it returned <code>false</code>.
+The <code>expectRevert</code> cheatcode works by inverting this, so the next call after this cheatcode returns <code>true</code> if it reverts.
+The implication here is that to use this cheatcode with low-level calls, you must manually assert on the call's status since Solidity is not doing it for you. For example:</p>
+<pre><code class="language-solidity">function testLowLevelCallRevert() public {
+    cheats.expectRevert(bytes(&quot;error message&quot;));
+    (bool status, ) = address(myContract).call(myCalldata);
+    assertTrue(status, &quot;expectRevert: call did not revert&quot;);
+
+}
+</code></pre>
 <h5 id="alternative-signature-2"><a class="header" href="#alternative-signature-2">Alternative Signature</a></h5>
 <pre><code class="language-solidity">function expectRevert(bytes4) external;
 </code></pre>
