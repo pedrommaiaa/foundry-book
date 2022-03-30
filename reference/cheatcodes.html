@@ -382,7 +382,7 @@ log_uint256(alice.balance); // 1000000000000000000
 </code></pre>
 <p>Sets the bytecode of an address <code>who</code> to <code>code</code>.</p>
 <h5 id="example-10"><a class="header" href="#example-10">Example</a></h5>
-<pre><code class="language-solidity">address code = address(awesomeContract).code;
+<pre><code class="language-solidity">bytes memory code = address(awesomeContract).code;
 address targetAddr = address(1);
 cheats.etch(targetAddr, code);
 log_bytes(address(targetAddr).code); // 0x6080604052348015610010...
