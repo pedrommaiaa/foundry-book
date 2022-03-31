@@ -1189,8 +1189,8 @@ export PRIVATE_KEY=&lt;Your wallets private key&gt;
 <p>Given that you already set your RPC and private key env variables during deployment, mint an NFT from your contract by running:</p>
 <pre><code class="language-bash">cast send --rpc-url=$RPC_URL &lt;contractAddress&gt; &quot;mintTo(address)&quot; &lt;arg&gt;
 </code></pre>
-<p>Well done! You just minted your first NFT from your contract. You can sanity check the owner of the NFT with <code>currentTokenId</code> equal to <strong>0</strong> by running the below <code>cast call</code> command. The address you provided above should be returned as the owner.</p>
-<pre><code class="language-bash">cast call --rpc-url=$RPC_URL --private-key=$PRIVATE_KEY &lt;contractAddress&gt; &quot;ownerOf(uint256)&quot; 0
+<p>Well done! You just minted your first NFT from your contract. You can sanity check the owner of the NFT with <code>currentTokenId</code> equal to <strong>1</strong> by running the below <code>cast call</code> command. The address you provided above should be returned as the owner.</p>
+<pre><code class="language-bash">cast call --rpc-url=$RPC_URL --private-key=$PRIVATE_KEY &lt;contractAddress&gt; &quot;ownerOf(uint256)&quot; 1
 </code></pre>
 <h3 id="extending-our-nft-contract-functionality-and-testing"><a class="header" href="#extending-our-nft-contract-functionality-and-testing">Extending our NFT contract functionality and testing</a></h3>
 <p>Let's extend our NFT by adding metadata to represent the content of our NFTs, as well as set a minting price, a maximum supply and the possibility to withdraw the collected proceeds from minting. To follow along you can replace your current NFT contract with the code snippet below:</p>
