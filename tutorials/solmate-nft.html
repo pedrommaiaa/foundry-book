@@ -202,7 +202,8 @@ export PRIVATE_KEY=&lt;Your wallets private key&gt;
 </code></pre>
 <h3 id="extending-our-nft-contract-functionality-and-testing"><a class="header" href="#extending-our-nft-contract-functionality-and-testing">Extending our NFT contract functionality and testing</a></h3>
 <p>Let's extend our NFT by adding metadata to represent the content of our NFTs, as well as set a minting price, a maximum supply and the possibility to withdraw the collected proceeds from minting. To follow along you can replace your current NFT contract with the code snippet below:</p>
-<pre><code class="language-solidity">pragma solidity &gt;=0.8.10;
+<pre><code class="language-solidity">// SPDX-License-Identifier: UNLICENSED
+pragma solidity &gt;=0.8.10;
 
 import &quot;solmate/tokens/ERC721.sol&quot;;
 import &quot;openzeppelin-contracts/contracts/utils/Strings.sol&quot;;

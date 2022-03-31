@@ -147,7 +147,8 @@
 <p>Most of the time, simply testing your smart contracts outputs isn't enough. To manipulate the state of the blockchain, as well as test for specific reverts and events, Foundry is shipped with a set of cheatcodes.</p>
 <p>Cheatcodes allow you to change the block number, your identity, and more. They are invoked by calling specific functions on a specially designated address: <code>0x7109709ECfa91a80626fF3989D68f67F5b1DD12D</code>. If you are using <code>ds-test</code>, then this address is assigned in a constant named <code>HEVM_ADDRESS</code>.</p>
 <p>Let's write a test for a smart contract that is only callable by its owner.</p>
-<pre><code class="language-solidity">pragma solidity ^0.8.0;
+<pre><code class="language-solidity">// SPDX-License-Identifier: UNLICENSED
+pragma solidity ^0.8.0;
 
 contract OwnerUpOnly {
   address public immutable owner;
