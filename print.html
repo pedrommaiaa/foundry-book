@@ -1186,7 +1186,8 @@ export PRIVATE_KEY=&lt;Your wallets private key&gt;
 <p>If successfully deployed, you will see the deploying wallet's address, the contract's address as well as the transaction hash printed to your terminal.</p>
 <h3 id="minting-nfts-from-your-contract"><a class="header" href="#minting-nfts-from-your-contract">Minting NFTs from your contract</a></h3>
 <p>Calling functions on your NFT contract is made simple with Cast, Foundry's command-line tool for interacting with smart contracts, sending transactions, and getting chain data. Let's have a look at how we can use it to mint NFTs from our NFT contract.</p>
-<p>Given that you already set your RPC and private key env variables during deployment, mint an NFT from your contract by running:</p>
+<p>Given that you already set your RPC and private key env variables during deployment, mint an NFT from your contract by
+running:</p>
 <pre><code class="language-bash">cast send --rpc-url=$RPC_URL &lt;contractAddress&gt;  &quot;mintTo(address)&quot; &lt;arg&gt; --private-key=$PRIVATE_KEY
 </code></pre>
 <p>Well done! You just minted your first NFT from your contract. You can sanity check the owner of the NFT with <code>currentTokenId</code> equal to <strong>1</strong> by running the below <code>cast call</code> command. The address you provided above should be returned as the owner.</p>
@@ -1358,18 +1359,18 @@ contract NFTTest is DSTest {
         assertEq(payee.balance, priorPayeeBalance + nftBalance);
     }
 
-    function testFailWithdrawalAsNotOwner() public {
-        vm.expectRevert(&quot;Ownable: caller is not the owner&quot;);
-        // Mint an NFT, sending eth to the contract
+    function testWithdrawalFailsAsNotOwner() public {
+        // Mint an NFT, sending eht to the contract
         Receiver receiver = new Receiver();
         nft.mintTo{value: nft.MINT_PRICE()}(address(receiver));
         // Check that the balance of the contract is correct
         assertEq(address(nft).balance, nft.MINT_PRICE());
         // Confirm that a non-owner cannot withdraw
+        vm.expectRevert(&quot;Ownable: caller is not the owner&quot;);
         vm.startPrank(address(0xd3ad));
         nft.withdrawPayments(payable(address(0xd3ad)));
         vm.stopPrank();
-    }   
+    }
 }
 
 contract Receiver is ERC721TokenReceiver {
@@ -1385,12 +1386,12 @@ contract Receiver is ERC721TokenReceiver {
 
 </code></pre>
 <p>The test suite is set up as a contract with a <code>setUp</code> method which runs before every individual test.</p>
-<p>As you can see, Forge offers a number of <a href="tutorials/../forge/cheatcodes">cheatcodes</a> to manipulate state to accomodate your testing scenario.</p>
+<p>As you can see, Forge offers a number of <a href="tutorials/../forge/cheatcodes">cheatcodes</a> to manipulate state to accommodate your testing scenario.</p>
 <p>For example, our <code>testFailMaxSupplyReached</code> test checks that an attempt to mint fails when the max supply of NFT is reached. Thus, the <code>currentTokenId</code> of the NFT contract needs to be set to the max supply by using the store cheatcode which allows you to write data to your contracts storage slots. The storage slots you wish to write to can easily be found using the
 <a href="https://github.com/brockelmore/forge-std/"><code>forge-std</code></a> helper library. You can run the test with the following command:</p>
 <pre><code class="language-bash">forge test
 </code></pre>
-<p>If you want to put your Forge skills to practice, write tests for the remaining methods of our NFT contract. Feel free to PR them to [nft-tutorial]((https://github.com/FredCoen/nft-tutorial), where you will find the full implemenation of this tutorial.</p>
+<p>If you want to put your Forge skills to practice, write tests for the remaining methods of our NFT contract. Feel free to PR them to <a href="https://github.com/FredCoen/nft-tutorial">nft-tutorial</a>, where you will find the full implementation of this tutorial.</p>
 <h3 id="gas-reports-for-your-function-calls"><a class="header" href="#gas-reports-for-your-function-calls">Gas reports for your function calls</a></h3>
 <p>Foundry provides comprehensive gas reports about your contracts. For every function called within your tests, it returns the minimum, average, median and max gas cost. To print the gas report simply run:</p>
 <pre><code class="language-bash">forge test --gas-report
