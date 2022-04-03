@@ -148,7 +148,9 @@
 <p>Cheatcodes allow you to change the block number, your identity, and more. They are invoked by calling specific functions on a specially designated address: <code>0x7109709ECfa91a80626fF3989D68f67F5b1DD12D</code>. If you are using <code>ds-test</code>, then this address is assigned in a constant named <code>HEVM_ADDRESS</code>.</p>
 <p>Let's write a test for a smart contract that is only callable by its owner.</p>
 <pre><code class="language-solidity">// SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.4;
+
+error Unauthorized();
 
 contract OwnerUpOnly {
     address public immutable owner;
@@ -159,11 +161,10 @@ contract OwnerUpOnly {
     }
 
     function increment() external {
-        require(
-            msg.sender == owner,
-            &quot;only the owner can increment the count&quot;
-        );
-      count++;
+        if (msg.sender != owner) {
+            revert Unauthorized();
+        }
+        count++;
     }
 }
 
@@ -222,15 +223,14 @@ Running 2 tests for OwnerUpOnlyTest.json:OwnerUpOnlyTest
 compiling...
 no files changed, compilation skipped.
 Running 2 tests for OwnerUpOnlyTest.json:OwnerUpOnlyTest
-[PASS] testFailIncrementAsNotOwner() (gas: 4030)
+[PASS] testFailIncrementAsNotOwner() (gas: 10406)
 Traces:
-
-  [4030] OwnerUpOnlyTest::testFailIncrementAsNotOwner()
+  [10406] OwnerUpOnlyTest::testFailIncrementAsNotOwner()
     ├─ [0] VM::prank(0x0000000000000000000000000000000000000000)
     │   └─ ← ()
-    ├─ [325] OwnerUpOnly::increment()
-    │   └─ ← &quot;only the owner can increment the count&quot;
-    └─ ← &quot;only the owner can increment the count&quot;
+    ├─ [235] 0xce71…c246::d09de08a()
+    │   └─ ← 0x82b42900
+    └─ ← 0x82b42900
 </code></pre>
 <p>To be sure in the future, let's make sure that we reverted because we are not the owner using the <code>expectRevert</code> cheatcode:</p>
 <pre><code class="language-solidity">interface CheatCodes {
@@ -247,9 +247,7 @@ contract OwnerUpOnlyTest is DSTest {
 
   // Notice that we replaced `testFail` with `test`
   function testIncrementAsNotOwner() public {
-    cheats.expectRevert(
-      bytes(&quot;only the owner can increment the count&quot;)
-    );
+    cheats.expectRevert(abi.encodeWithSignature(&quot;Unauthorized()&quot;));
     cheats.prank(address(0));
     upOnly.increment();
   }
@@ -260,7 +258,7 @@ contract OwnerUpOnlyTest is DSTest {
 compiling...
 success.
 Running 2 tests for OwnerUpOnlyTest.json:OwnerUpOnlyTest
-[PASS] testIncrementAsNotOwner() (gas: 4917)
+[PASS] testIncrementAsNotOwner() (gas: 11200)
 [PASS] testIncrementAsOwner() (gas: 24661)
 </code></pre>
 <p>Another cheatcode that is perhaps not so intuitive is the <code>expectEmit</code> function. Before looking at <code>expectEmit</code>, we need to understand what an event is.</p>
