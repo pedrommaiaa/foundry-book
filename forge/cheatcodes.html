@@ -151,36 +151,36 @@
 pragma solidity ^0.8.0;
 
 contract OwnerUpOnly {
-  address public immutable owner;
-  uint256 public count;
+    address public immutable owner;
+    uint256 public count;
 
-  constructor() {
-    owner = msg.sender;
-  }
+    constructor() {
+        owner = msg.sender;
+    }
 
-  function increment() external {
-    require(
-      msg.sender == owner,
-      &quot;only the owner can increment the count&quot;
-    );
-    count++;
-  }
+    function increment() external {
+        require(
+            msg.sender == owner,
+            &quot;only the owner can increment the count&quot;
+        );
+      count++;
+    }
 }
 
 import &quot;ds-test/test.sol&quot;;
 
 contract OwnerUpOnlyTest is DSTest {
-  OwnerUpOnly upOnly;
+    OwnerUpOnly upOnly;
 
-  function setUp() public {
-    upOnly = new OwnerUpOnly();
-  }
+    function setUp() public {
+        upOnly = new OwnerUpOnly();
+    }
 
-  function testIncrementAsOwner() public {
-    assertEq(upOnly.count(), 0);
-    upOnly.increment();
-    assertEq(upOnly.count(), 1);
-  }
+    function testIncrementAsOwner() public {
+        assertEq(upOnly.count(), 0);
+        upOnly.increment();
+        assertEq(upOnly.count(), 1);
+    }
 }
 </code></pre>
 <p>If we run <code>forge test</code> now, we will see that the test passes, since <code>OwnerUpOnlyTest</code> is the owner of <code>OwnerUpOnly</code>.</p>
@@ -192,20 +192,20 @@ Running 1 test for OwnerUpOnlyTest.json:OwnerUpOnlyTest
 </code></pre>
 <p>Let's make sure that someone who is definitely not the owner can't increment the count:</p>
 <pre><code class="language-solidity">interface CheatCodes {
-  function prank(address) external;
+    function prank(address) external;
 }
 
 contract OwnerUpOnlyTest is DSTest {
-  CheatCodes cheats = CheatCodes(HEVM_ADDRESS);
-  OwnerUpOnly upOnly;
+    CheatCodes cheats = CheatCodes(HEVM_ADDRESS);
+    OwnerUpOnly upOnly;
 
-  // setUp
-  // testIncrementAsOwner
+    // setUp
+    // testIncrementAsOwner
 
-  function testFailIncrementAsNotOwner() public {
-    cheats.prank(address(0));
-    upOnly.increment();
-  }
+    function testFailIncrementAsNotOwner() public {
+        cheats.prank(address(0));
+        upOnly.increment();
+    }
 }
 </code></pre>
 <p>If we run <code>forge test</code> now, we will see that all the test pass.</p>
@@ -234,8 +234,8 @@ Traces:
 </code></pre>
 <p>To be sure in the future, let's make sure that we reverted because we are not the owner using the <code>expectRevert</code> cheatcode:</p>
 <pre><code class="language-solidity">interface CheatCodes {
-  function prank(address) external;
-  function expectRevert(bytes calldata) external;
+    function prank(address) external;
+    function expectRevert(bytes calldata) external;
 }
 
 contract OwnerUpOnlyTest is DSTest {

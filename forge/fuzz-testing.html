@@ -151,32 +151,32 @@
 pragma solidity ^0.8.0;
 
 contract Safe {
-  receive() external payable {}
+    receive() external payable {}
 
-  function withdraw() external {
-    payable(msg.sender).transfer(address(this).balance);
-  }
+    function withdraw() external {
+        payable(msg.sender).transfer(address(this).balance);
+    }
 }
 
 import &quot;ds-test/test.sol&quot;;
 
 contract SafeTest is DSTest {
-  Safe safe;
+    Safe safe;
 
-  // Needed so the test contract itself can receive ether
-  receive() external payable {}
+    // Needed so the test contract itself can receive ether
+    receive() external payable {}
 
-  function setUp() public {
-    safe = new Safe();
-  }
+    function setUp() public {
+        safe = new Safe();
+    }
 
-  function testWithdraw() public {
-    payable(address(safe)).transfer(1 ether);
-    uint256 preBalance = address(this).balance;
-    safe.withdraw();
-    uint256 postBalance = address(this).balance;
-    assertEq(preBalance + 1 ether, postBalance);
-  }
+    function testWithdraw() public {
+        payable(address(safe)).transfer(1 ether);
+        uint256 preBalance = address(this).balance;
+        safe.withdraw();
+        uint256 postBalance = address(this).balance;
+        assertEq(preBalance + 1 ether, postBalance);
+    }
 }
 </code></pre>
 <p>Running the test, we see it passes:</p>
@@ -190,17 +190,17 @@ Running 1 test for SafeTest.json:SafeTest
 <p>The general property here is: given a safe balance, when we withdraw, we should get whatever is in the safe.</p>
 <p>Forge will run any test that takes at least one parameter as a property-based test, so let's rewrite:</p>
 <pre><code class="language-solidity">contract SafeTest is DSTest {
-  // safe
-  // receive
-  // setUp
+    // safe
+    // receive
+    // setUp
 
-  function testWithdraw(uint256 amount) public {
-    payable(address(safe)).transfer(amount);
-    uint256 preBalance = address(this).balance;
-    safe.withdraw();
-    uint256 postBalance = address(this).balance;
-    assertEq(preBalance + amount, postBalance);
-  }
+    function testWithdraw(uint256 amount) public {
+        payable(address(safe)).transfer(amount);
+        uint256 preBalance = address(this).balance;
+        safe.withdraw();
+        uint256 postBalance = address(this).balance;
+        assertEq(preBalance + amount, postBalance);
+    }
 }
 </code></pre>
 <p>If we run the test now, we can see that Forge runs the property-based test, but it fails for high values of <code>amount</code>:</p>
@@ -218,13 +218,13 @@ Failed tests:
 </code></pre>
 <p>The default amount of ether that the test contract is given is <code>2**96 wei</code> (as in DappTools), so we have to restrict the type of amount to <code>uint96</code> to make sure we don't try to send more than we have:</p>
 <pre><code class="language-solidity">contract SafeTest is DSTest {
-  // safe
-  // receive
-  // setUp
+    // safe
+    // receive
+    // setUp
 
-  function testWithdraw(uint96 amount) public {
-    // snip
-  }
+    function testWithdraw(uint96 amount) public {
+        // snip
+    }
 }
 </code></pre>
 <p>And now it passes:</p>
@@ -236,8 +236,8 @@ Running 1 test for SafeTest.json:SafeTest
 </code></pre>
 <p>You may want to exclude certain cases using the <a href="../reference/cheatcodes.html#assume"><code>assume</code></a> cheatcode. In those cases, fuzzer will discard the inputs and start a new fuzz run:</p>
 <pre><code class="language-solidity">function testWithdraw(uint96 amount) public {
-  cheats.assume(amount &gt; 0.1 ether)
-  // snip
+    cheats.assume(amount &gt; 0.1 ether)
+    // snip
 }
 </code></pre>
 <p>There are different ways to run property-based tests, notably parametric testing and fuzzing. Forge only supports fuzzing.</p>
