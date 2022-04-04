@@ -528,7 +528,7 @@ function setUp() public {
     testNumber -= 43;
 }
 </code></pre>
-A good practice is to use something like <code>testCannot</code> in combination with the <a href="forge/../reference/cheatcodes.html#expectrevert"><code>expectRevert</code></a> cheatcode, instead of <code>testFail</code>, so you know what reverted:
+A good practice is to use something like <code>testCannot</code> in combination with the <a href="forge/../reference/cheatcodes.html#expectrevert"><code>expectRevert</code></a> cheatcode (cheatcodes are explained in greater detail in the following <a href="forge/./cheatcodes.html">section</a>). Now instead of using <code>testFail</code>, you know exactly what reverted:
 <pre><code class="language-solidity">function testCannotSubtract43() public {
     cheats.expectRevert(abi.encodeWithSignature(&quot;Panic(uint256)&quot;, 0x11));
     testNumber -= 43;
