@@ -1012,8 +1012,9 @@ Version: 0.8.12+commit.f00d7308.Darwin.appleclang
 <pre><code class="language-sh">$ forge run --debug $FILE --sig $FUNC
 </code></pre>
 <p>Where <code>$FILE</code> is the path to the contract you want to debug, and <code>$FUNC</code> is the signature of the function you want to debug. For example:</p>
-<pre><code class="language-sh">$ forge run --debug src/MyContract.sol --sig &quot;someFunction()&quot;
+<pre><code class="language-sh">$ forge run --debug src/SomeContract.sol --sig &quot;myFunc(uint256,string)&quot; 123 &quot;hello&quot;
 </code></pre>
+<p>Additionally, test files can also be debugged in the same way.</p>
 <p>If your source file contains more than one contract, specify the contract you want to debug using the <code>--target-contract</code> flag.</p>
 <h3 id="debugger-layout"><a class="header" href="#debugger-layout">Debugger layout</a></h3>
 <p><img src="forge/../images/debugger.png" alt="An image of the debugger UI" /></p>
