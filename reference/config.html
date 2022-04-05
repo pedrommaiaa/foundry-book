@@ -336,16 +336,16 @@ gas_reports = [&quot;*&quot;]                                           # a list
 <h5 id="fuzz_max_local_rejects"><a class="header" href="#fuzz_max_local_rejects"><code>fuzz_max_local_rejects</code></a></h5>
 <ul>
 <li>Type: integer</li>
-<li>Default: 65536</li>
-<li>Environment: <code>FOUNDRY_FUZZ_RUNS</code></li>
+<li>Default: 1024</li>
+<li>Environment: <code>FOUNDRY_FUZZ_MAX_LOCAL_REJECTS</code></li>
 </ul>
 <p>The maximum number of individual inputs that may be rejected before the test as a whole aborts.
 &quot;Local&quot; filters apply to a single strategy. If a value is rejected, a new value is drawn from that strategy only.</p>
 <h5 id="fuzz_max_global_rejects"><a class="header" href="#fuzz_max_global_rejects"><code>fuzz_max_global_rejects</code></a></h5>
 <ul>
 <li>Type: integer</li>
-<li>Default: 1024</li>
-<li>Environment: <code>FOUNDRY_FUZZ_RUNS</code></li>
+<li>Default: 65536</li>
+<li>Environment: <code>FOUNDRY_FUZZ_MAX_GLOBAL_REJECTS</code></li>
 </ul>
 <p>The maximum number of combined inputs that may be rejected before the test as a whole aborts.
 &quot;Global&quot; filters apply to the whole test case. If the test case is rejected, the whole thing is regenerated.</p>
