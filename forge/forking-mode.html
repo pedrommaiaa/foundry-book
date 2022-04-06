@@ -162,7 +162,11 @@
 <p>It is possible to specify a block from which to fork with <code>--fork-block-number</code>:</p>
 <pre><code class="language-bash">forge test --fork-url &lt;your_rpc_url&gt; --fork-block-number 1
 </code></pre>
-<p>Forking is especially useful when you need to interact with existing contracts, and you may choose to do integration testing this way - as if you were on an actual network.</p>
+<p>Forking is especially useful when you need to interact with existing contracts, and you may choose to do integration testing this way, as if you were on an actual network.</p>
+<h3 id="caching"><a class="header" href="#caching">Caching</a></h3>
+<p>If both <code>--fork-url</code> and <code>--fork-block-number</code> are specified, then data for that block is cached for future test runs.</p>
+<p>The data is cached in <code>$HOME/.foundry/cache/&lt;chain id&gt;/&lt;block number&gt;</code>. To clear the cache, simply remove the directory.</p>
+<p>It is also possible to ignore the cache entirely by passing <code>--no-storage-caching</code>, or with <code>foundry.toml</code> by configuring <a href="../reference/config.html#no_storage_caching"><code>no_storage_caching</code></a> and <a href="../reference/config.html#rpc_storage_caching"><code>rpc_storage_caching</code></a>.</p>
 
                     </main>
 
