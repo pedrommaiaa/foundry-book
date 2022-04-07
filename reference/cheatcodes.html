@@ -149,89 +149,95 @@
 <h3 id="cheatcodes-interface"><a class="header" href="#cheatcodes-interface">Cheatcodes Interface</a></h3>
 <p>This is a complete overview of all the available cheatcodes. For detailed descriptions and example usage, see below.</p>
 <pre><code class="language-solidity">interface CheatCodes {
-
-    function warp(uint256) external;
     // Set block.timestamp
+    function warp(uint256) external;
 
-    function roll(uint256) external;
     // Set block.number
+    function roll(uint256) external;
 
-    function fee(uint256) external;
     // Set block.basefee
+    function fee(uint256) external;
 
-    function load(address account, bytes32 slot) external returns (bytes32);
     // Loads a storage slot from an address
+    function load(address account, bytes32 slot) external returns (bytes32);
 
-    function store(address account, bytes32 slot, bytes32 value) external;
     // Stores a value to an address' storage slot
+    function store(address account, bytes32 slot, bytes32 value) external;
 
-    function sign(uint256 privateKey, bytes32 digest) external returns (uint8 v, bytes32 r, bytes32 s);
     // Signs data
+    function sign(uint256 privateKey, bytes32 digest) external returns (uint8 v, bytes32 r, bytes32 s);
 
-    function addr(uint256 privateKey) external returns (address);
     // Computes address for a given private key
+    function addr(uint256 privateKey) external returns (address);
 
-    function ffi(string[] calldata) external returns (bytes memory);
+    // Gets the nonce of an account
+    function getNonce(address account) external returns (uint64);
+
+    // Sets the nonce of an account
+    // The new nonce must be higher than the current nonce of the account
+    function getNonce(address account, uint256 nonce) external;
+
     // Performs a foreign function call via terminal
+    function ffi(string[] calldata) external returns (bytes memory);
 
-    function prank(address) external;
     // Sets the *next* call's msg.sender to be the input address
+    function prank(address) external;
 
-    function startPrank(address) external;
     // Sets all subsequent calls' msg.sender to be the input address until `stopPrank` is called
+    function startPrank(address) external;
 
-    function prank(address, address) external;
     // Sets the *next* call's msg.sender to be the input address, and the tx.origin to be the second input
+    function prank(address, address) external;
 
-    function startPrank(address, address) external;
     // Sets all subsequent calls' msg.sender to be the input address until `stopPrank` is called, and the tx.origin to be the second input
+    function startPrank(address, address) external;
 
-    function stopPrank() external;
     // Resets subsequent calls' msg.sender to be `address(this)`
+    function stopPrank() external;
 
-    function deal(address who, uint256 newBalance) external;
     // Sets an address' balance
+    function deal(address who, uint256 newBalance) external;
 
-    function etch(address who, bytes calldata code) external;
     // Sets an address' code
+    function etch(address who, bytes calldata code) external;
 
+    // Expects an error on next call
     function expectRevert() external;
     function expectRevert(bytes calldata) external;
     function expectRevert(bytes4) external;
-    // Expects an error on next call
 
-    function record() external;
     // Record all storage reads and writes
+    function record() external;
 
-    function accesses(address) external returns (bytes32[] memory reads, bytes32[] memory writes);
     // Gets all accessed reads and write slot from a recording session, for a given address
+    function accesses(address) external returns (bytes32[] memory reads, bytes32[] memory writes);
 
-    function expectEmit(bool, bool, bool, bool) external;
     // Prepare an expected log with (bool checkTopic1, bool checkTopic2, bool checkTopic3, bool checkData).
     // Call this function, then emit an event, then call a function. Internally after the call, we check if
     // logs were emitted in the expected order with the expected topics and data (as specified by the booleans)
+    function expectEmit(bool, bool, bool, bool) external;
 
-    function mockCall(address, bytes calldata, bytes calldata) external;
     // Mocks a call to an address, returning specified data.
     // Calldata can either be strict or a partial match, e.g. if you only
     // pass a Solidity selector to the expected calldata, then the entire Solidity
     // function will be mocked.
+    function mockCall(address, bytes calldata, bytes calldata) external;
 
-    function clearMockedCalls() external;
     // Clears all mocked calls
+    function clearMockedCalls() external;
 
-    function expectCall(address, bytes calldata) external;
     // Expect a call to an address with the specified calldata.
     // Calldata can either be strict or a partial match
+    function expectCall(address, bytes calldata) external;
 
-    function getCode(string calldata) external returns (bytes memory);
     // Gets the bytecode for a contract in the project given the path to the contract.
+    function getCode(string calldata) external returns (bytes memory);
 
-    function label(address addr, string calldata label) external;
     // Label an address in test traces
+    function label(address addr, string calldata label) external;
 
-    function assume(bool) external;
     // When fuzzing, generate new inputs if conditional not met
+    function assume(bool) external;
 }
 </code></pre>
 <h3 id="cheatcodes"><a class="header" href="#cheatcodes">Cheatcodes</a></h3>
@@ -319,12 +325,31 @@ emit log_address(alice); // 0x7e5f4552091a69125d5dfcb7b8c2659029395bdf
 </code></pre>
 <br>
 <hr />
+<h4 id="getnonce"><a class="header" href="#getnonce"><code>getNonce</code></a></h4>
+<pre><code class="language-solidity">function getNonce(address account) external returns (uint64);
+</code></pre>
+<p>Gets the nonce of the given account.</p>
+<h5 id="example-7"><a class="header" href="#example-7">Example</a></h5>
+<pre><code class="language-solidity">uint256 nonce = cheats.getNonce(address(100));
+emit log_uint(nonce); // 0
+</code></pre>
+<br>
+<hr />
+<h4 id="setnonce"><a class="header" href="#setnonce"><code>setNonce</code></a></h4>
+<pre><code class="language-solidity">function getNonce(address account, uint256 nonce) external;
+</code></pre>
+<p>Computes the address for a given private key.</p>
+<h5 id="example-8"><a class="header" href="#example-8">Example</a></h5>
+<pre><code class="language-solidity">cheats.setNonce(address(100), 1234);
+</code></pre>
+<br>
+<hr />
 <h4 id="ffi"><a class="header" href="#ffi"><code>ffi</code></a></h4>
 <pre><code class="language-solidity">function ffi(string[] calldata) external returns (bytes memory);
 </code></pre>
 <p>Calls an arbitrary command if <a href="./config.html#ffi"><code>ffi</code></a> is enabled.</p>
 <p>It is generally advised to use this cheat code as a last resort, and to not enable it by default, as anyone who can change the tests of a project will be able to execute arbitrary commands on devices that run the tests.</p>
-<h5 id="example-7"><a class="header" href="#example-7">Example</a></h5>
+<h5 id="example-9"><a class="header" href="#example-9">Example</a></h5>
 <pre><code class="language-solidity">string[] memory inputs = new string[](3);
 inputs[0] = &quot;echo&quot;;
 inputs[1] = &quot;-n&quot;;
@@ -341,7 +366,7 @@ assertEq(output, &quot;gm&quot;);
 <pre><code class="language-solidity">function prank(address) external;
 </code></pre>
 <p>Sets <code>msg.sender</code> to the specified address <strong>for the next call</strong>. &quot;The next call&quot; includes static calls as well, but not calls to the cheat code address.</p>
-<h5 id="example-8"><a class="header" href="#example-8">Example</a></h5>
+<h5 id="example-10"><a class="header" href="#example-10">Example</a></h5>
 <pre><code class="language-solidity">/// function withdraw() public {
 ///     require(msg.sender == owner);
 
@@ -370,7 +395,7 @@ myContract.withdraw(); // [PASS]
 <pre><code class="language-solidity">function deal(address who, uint256 newBalance) external;
 </code></pre>
 <p>Sets the balance of an address <code>who</code> to <code>newBalance</code>.</p>
-<h5 id="example-9"><a class="header" href="#example-9">Example</a></h5>
+<h5 id="example-11"><a class="header" href="#example-11">Example</a></h5>
 <pre><code class="language-solidity">address alice = address(1);
 cheats.deal(alice, 1 ether);
 log_uint256(alice.balance); // 1000000000000000000
@@ -381,7 +406,7 @@ log_uint256(alice.balance); // 1000000000000000000
 <pre><code class="language-solidity">function etch(address who, bytes calldata code) external;
 </code></pre>
 <p>Sets the bytecode of an address <code>who</code> to <code>code</code>.</p>
-<h5 id="example-10"><a class="header" href="#example-10">Example</a></h5>
+<h5 id="example-12"><a class="header" href="#example-12">Example</a></h5>
 <pre><code class="language-solidity">bytes memory code = address(awesomeContract).code;
 address targetAddr = address(1);
 cheats.etch(targetAddr, code);
@@ -424,7 +449,7 @@ The implication here is that to use this cheatcode with low-level calls, you mus
 <pre><code class="language-solidity">function expectRevert() external;
 </code></pre>
 <p>If you need to test that a function reverts <em>without</em> a message, you can do so with <code>expectRevert()</code>.</p>
-<h6 id="example-11"><a class="header" href="#example-11">Example</a></h6>
+<h6 id="example-13"><a class="header" href="#example-13">Example</a></h6>
 <pre><code class="language-solidity">function testExpectRevertNoReason() public {
     Reverter reverter = new Reverter();
     cheats.expectRevert();
@@ -442,7 +467,7 @@ The implication here is that to use this cheatcode with low-level calls, you mus
 </code></pre>
 <p>Gets all storage slots that have been read (<code>reads</code>) or written to (<code>writes</code>) on an address.</p>
 <p>Note that <a href="#record"><code>record</code></a> must be called first.</p>
-<h5 id="example-12"><a class="header" href="#example-12">Example</a></h5>
+<h5 id="example-14"><a class="header" href="#example-14">Example</a></h5>
 <pre><code class="language-solidity">/// contract NumsContract {
 ///     uint256 public num1 = 100; // slot 0
 ///     uint256 public num2 = 200; // slot 1
@@ -565,7 +590,7 @@ This is because Solidity inserts an <code>extcodesize</code> check before some c
 <p>Expects at least one call to address <code>where</code> where the call data either strictly or loosely matches <code>data</code>.</p>
 <p>When a call is made to <code>where</code> the call data is first checked to see if it matches in its entirety with <code>data</code>. If not, the call data is checked to see if there is a partial match, with the match starting at the first byte of the call data.</p>
 <p>If the test terminates without the call being made, the test fails.</p>
-<h5 id="example-13"><a class="header" href="#example-13">Example</a></h5>
+<h5 id="example-15"><a class="header" href="#example-15">Example</a></h5>
 <pre><code class="language-solidity">bytes memory expectedData = abi.encodeWithSignature(&quot;fulfillRandomness(bytes32,uint256)&quot;, requestId, randomness);
 cheats.expectCall(address(awesomeContract), expectedData);
 vrfCoordinator.callBackWithRandomness(requestId, randomness, address(awesomeContract));
@@ -578,7 +603,7 @@ vrfCoordinator.callBackWithRandomness(requestId, randomness, address(awesomeCont
 </code></pre>
 <p>Returns the bytecode for a contract in the project given the path to the contract.</p>
 <p>The calldata parameter can either be in the form <code>ContractFile.sol</code> (if the filename and contract name are the same), <code>ContractFile.sol:ContractName</code>, or <code>./path/to/artifact.json</code></p>
-<h5 id="example-14"><a class="header" href="#example-14">Example</a></h5>
+<h5 id="example-16"><a class="header" href="#example-16">Example</a></h5>
 <pre><code class="language-solidity">MyContract myContract = new MyContract(arg1, arg2);
 
 // Let's do the same thing with `getCode`
@@ -615,7 +640,7 @@ assertEq0(address(myContract).code, anotherAddress.code); // [PASS]
 <p>If the boolean expression evaluates to false, discard the current fuzz inputs and start a new fuzz run.</p>
 <p>The <code>assume</code> cheatcode should mainly be used for very narrow checks. Broad checks will slow down tests as it will take a while to find valid values, and the test may fail if you hit the max number of rejects. You can configure the rejection thresholds by setting <a href="./config.html#fuzz_max_local_rejects"><code>fuzz_max_local_rejects</code></a> and <a href="./config.html#fuzz_max_global_rejects"><code>fuzz_max_global_rejects</code></a> in your <code>foundry.toml</code> file. More information on filtering via <code>assume</code> can be found <a href="https://altsysrq.github.io/proptest-book/proptest/tutorial/filtering.html#filtering">here</a>.</p>
 <p>For broad checks, such as ensuring a <code>uint256</code> falls within a certain range, you can bound your input with the modulo operator or Solmate's <a href="https://github.com/Rari-Capital/solmate/blob/a9e3ea26a2dc73bfa87f0cb189687d029028e0c5/src/test/utils/DSTestPlus.sol#L114-L133"><code>bound</code></a> method.</p>
-<h5 id="example-15"><a class="header" href="#example-15">Example</a></h5>
+<h5 id="example-17"><a class="header" href="#example-17">Example</a></h5>
 <pre><code class="language-solidity">// Good example of using assume
 function testX(uint256 a) public {
     cheats.assume(a != 1);
