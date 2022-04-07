@@ -1,0 +1,292 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js ayu">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Cheatcodes Reference - Foundry Book</title>
+        <!-- Custom HTML head -->
+        <meta name="twitter:card" content="summary">
+        <meta property="og:title" content="Foundry Book" />
+        <meta property="og:description" content="A book on all things Foundry" />
+        <meta name="twitter:image:src" content="https://raw.githubusercontent.com/onbjerg/foundry-book/master/theme/card.png" />
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="A book on all things Foundry">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "ayu";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('ayu')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Getting Started</li><li class="chapter-item expanded "><a href="../getting-started/installation.html">Installation</a></li><li class="chapter-item expanded "><a href="../getting-started/first-steps.html">First Steps with Foundry</a></li><li class="chapter-item expanded affix "><li class="part-title">Projects</li><li class="chapter-item expanded "><a href="../projects/creating-a-new-project.html">Creating a New Project</a></li><li class="chapter-item expanded "><a href="../projects/working-on-an-existing-project.html">Working on an Existing Project</a></li><li class="chapter-item expanded "><a href="../projects/dependencies.html">Dependencies</a></li><li class="chapter-item expanded "><a href="../projects/project-layout.html">Project Layout</a></li><li class="chapter-item expanded affix "><li class="part-title">Forge Overview</li><li class="chapter-item expanded "><a href="../forge/index.html">Overview of forge</a></li><li class="chapter-item expanded "><a href="../forge/tests.html">Tests</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../forge/writing-tests.html">Writing Tests</a></li><li class="chapter-item "><a href="../forge/cheatcodes.html">Cheatcodes</a></li><li class="chapter-item "><a href="../forge/traces.html">Understanding Traces</a></li><li class="chapter-item "><a href="../forge/forking-mode.html">Forking Mode</a></li></ol></li><li class="chapter-item expanded "><a href="../forge/advanced-testing.html">Advanced Testing</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../forge/fuzz-testing.html">Fuzz Testing</a></li></ol></li><li class="chapter-item expanded "><a href="../forge/deploying.html">Deploying and Verifying</a></li><li class="chapter-item expanded "><div>Gas Tracking</div><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../forge/gas-reports.html">Gas Reports</a></li></ol></li><li class="chapter-item expanded "><a href="../forge/debugger.html">Debugger</a></li><li class="chapter-item expanded affix "><li class="part-title">Cast Overview</li><li class="chapter-item expanded "><a href="../cast/index.html">Overview of cast</a></li><li class="chapter-item expanded affix "><li class="part-title">Configuration</li><li class="chapter-item expanded "><a href="../config/index.html">Configuring with foundry.toml</a></li><li class="chapter-item expanded "><a href="../config/continous-integration.html">Continuous Integration</a></li><li class="chapter-item expanded "><a href="../config/vscode.html">Integrating with VSCode</a></li><li class="chapter-item expanded "><a href="../config/shell-autocompletion.html">Shell Autocompletion</a></li><li class="chapter-item expanded affix "><li class="part-title">Tutorials</li><li class="chapter-item expanded "><a href="../tutorials/solmate-nft.html">Creating an NFT with Solmate</a></li><li class="chapter-item expanded "><a href="../tutorials/foundry-docker.html">Docker and Foundry</a></li><li class="chapter-item expanded affix "><li class="part-title">Appendix</li><li class="chapter-item expanded "><div>FAQ</div></li><li class="chapter-item expanded "><div>References</div><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><div>forge Reference</div></li><li class="chapter-item "><a href="../reference/cast.html">cast Reference</a></li><li class="chapter-item "><a href="../reference/config.html">foundry.toml Reference</a></li><li class="chapter-item "><a href="../reference/ds-test.html">ds-test Reference</a></li><li class="chapter-item expanded "><a href="../cheatcodes/index.html" class="active">Cheatcodes Reference</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../cheatcodes/environment.html">Environment</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../cheatcodes/warp.html">warp</a></li><li class="chapter-item "><a href="../cheatcodes/roll.html">roll</a></li><li class="chapter-item "><a href="../cheatcodes/fee.html">fee</a></li><li class="chapter-item "><a href="../cheatcodes/store.html">store</a></li><li class="chapter-item "><a href="../cheatcodes/load.html">load</a></li><li class="chapter-item "><a href="../cheatcodes/etch.html">etch</a></li><li class="chapter-item "><a href="../cheatcodes/deal.html">deal</a></li><li class="chapter-item "><a href="../cheatcodes/prank.html">prank</a></li><li class="chapter-item "><a href="../cheatcodes/start-prank.html">startPrank</a></li><li class="chapter-item "><a href="../cheatcodes/stop-prank.html">stopPrank</a></li><li class="chapter-item "><a href="../cheatcodes/record.html">record</a></li><li class="chapter-item "><a href="../cheatcodes/accesses.html">accesses</a></li><li class="chapter-item "><a href="../cheatcodes/set-nonce.html">setNonce</a></li><li class="chapter-item "><a href="../cheatcodes/get-nonce.html">getNonce</a></li><li class="chapter-item "><a href="../cheatcodes/mock-call.html">mockCall</a></li><li class="chapter-item "><a href="../cheatcodes/clear-mocked-calls.html">clearMockedCalls</a></li></ol></li><li class="chapter-item "><a href="../cheatcodes/assertions.html">Assertions</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../cheatcodes/expect-revert.html">expectRevert</a></li><li class="chapter-item "><a href="../cheatcodes/expect-emit.html">expectEmit</a></li><li class="chapter-item "><a href="../cheatcodes/expect-call.html">expectCall</a></li></ol></li><li class="chapter-item "><a href="../cheatcodes/fuzzer.html">Fuzzer</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../cheatcodes/assume.html">assume</a></li></ol></li><li class="chapter-item "><a href="../cheatcodes/external.html">External</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../cheatcodes/ffi.html">ffi</a></li><li class="chapter-item "><a href="../cheatcodes/get-code.html">getCode</a></li></ol></li><li class="chapter-item "><a href="../cheatcodes/utilities.html">Utilities</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../cheatcodes/addr.html">addr</a></li><li class="chapter-item "><a href="../cheatcodes/sign.html">sign</a></li><li class="chapter-item "><a href="../cheatcodes/label.html">label</a></li></ol></li></ol></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu (default)</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Foundry Book</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/onbjerg/foundry-book" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/onbjerg/foundry-book/edit/master/src/cheatcodes/README.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="cheatcodes-reference"><a class="header" href="#cheatcodes-reference">Cheatcodes Reference</a></h2>
+<p>Cheatcodes give you powerful assertions, the ability to alter the state of the EVM, mock data, and more.</p>
+<p>To enable a cheatcode you call designated functions on the cheatcode address: <code>0x7109709ECfa91a80626fF3989D68f67F5b1DD12D</code>.</p>
+<p>This address can be accessed through the <code>HEVM_ADDRESS</code> constant in <code>DSTest</code>.</p>
+<p>Below are some subsections for the different cheatcodes in Forge.</p>
+<ul>
+<li><a href="./environment.html">Environment</a>: Cheatcodes that alter the state of the EVM.</li>
+<li><a href="./assertions.html">Assertions</a>: Cheatcodes that are powerful assertions</li>
+<li><a href="./fuzzer.html">Fuzzer</a>: Cheatcodes that configure the fuzzer</li>
+<li><a href="./external.html">External</a>: Cheatcodes that interact with external state (files, commands, ...)</li>
+<li><a href="./utilities.html">Utilities</a>: Smaller utility cheatcodes</li>
+</ul>
+<h3 id="cheatcodes-interface"><a class="header" href="#cheatcodes-interface">Cheatcodes Interface</a></h3>
+<p>This is a Solidity interface for all of the cheatcodes present in Forge.</p>
+<pre><code class="language-solidity">interface CheatCodes {
+    // Set block.timestamp
+    function warp(uint256) external;
+
+    // Set block.number
+    function roll(uint256) external;
+
+    // Set block.basefee
+    function fee(uint256) external;
+
+    // Loads a storage slot from an address
+    function load(address account, bytes32 slot) external returns (bytes32);
+
+    // Stores a value to an address' storage slot
+    function store(address account, bytes32 slot, bytes32 value) external;
+
+    // Signs data
+    function sign(uint256 privateKey, bytes32 digest) external returns (uint8 v, bytes32 r, bytes32 s);
+
+    // Computes address for a given private key
+    function addr(uint256 privateKey) external returns (address);
+
+    // Gets the nonce of an account
+    function getNonce(address account) external returns (uint64);
+
+    // Sets the nonce of an account
+    // The new nonce must be higher than the current nonce of the account
+    function getNonce(address account, uint256 nonce) external;
+
+    // Performs a foreign function call via terminal
+    function ffi(string[] calldata) external returns (bytes memory);
+
+    // Sets the *next* call's msg.sender to be the input address
+    function prank(address) external;
+
+    // Sets all subsequent calls' msg.sender to be the input address until `stopPrank` is called
+    function startPrank(address) external;
+
+    // Sets the *next* call's msg.sender to be the input address, and the tx.origin to be the second input
+    function prank(address, address) external;
+
+    // Sets all subsequent calls' msg.sender to be the input address until `stopPrank` is called, and the tx.origin to be the second input
+    function startPrank(address, address) external;
+
+    // Resets subsequent calls' msg.sender to be `address(this)`
+    function stopPrank() external;
+
+    // Sets an address' balance
+    function deal(address who, uint256 newBalance) external;
+
+    // Sets an address' code
+    function etch(address who, bytes calldata code) external;
+
+    // Expects an error on next call
+    function expectRevert() external;
+    function expectRevert(bytes calldata) external;
+    function expectRevert(bytes4) external;
+
+    // Record all storage reads and writes
+    function record() external;
+
+    // Gets all accessed reads and write slot from a recording session, for a given address
+    function accesses(address) external returns (bytes32[] memory reads, bytes32[] memory writes);
+
+    // Prepare an expected log with (bool checkTopic1, bool checkTopic2, bool checkTopic3, bool checkData).
+    // Call this function, then emit an event, then call a function. Internally after the call, we check if
+    // logs were emitted in the expected order with the expected topics and data (as specified by the booleans)
+    function expectEmit(bool, bool, bool, bool) external;
+
+    // Mocks a call to an address, returning specified data.
+    // Calldata can either be strict or a partial match, e.g. if you only
+    // pass a Solidity selector to the expected calldata, then the entire Solidity
+    // function will be mocked.
+    function mockCall(address, bytes calldata, bytes calldata) external;
+
+    // Clears all mocked calls
+    function clearMockedCalls() external;
+
+    // Expect a call to an address with the specified calldata.
+    // Calldata can either be strict or a partial match
+    function expectCall(address, bytes calldata) external;
+
+    // Gets the bytecode for a contract in the project given the path to the contract.
+    function getCode(string calldata) external returns (bytes memory);
+
+    // Label an address in test traces
+    function label(address addr, string calldata label) external;
+
+    // When fuzzing, generate new inputs if conditional not met
+    function assume(bool) external;
+}
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../reference/ds-test.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../cheatcodes/environment.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../reference/ds-test.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../cheatcodes/environment.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        <script type="text/javascript" src="../src/static/solidity.min.js"></script>
+    </body>
+</html>
