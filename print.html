@@ -29,6 +29,7 @@
         <link rel="stylesheet" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="src/static/custom.css">
     </head>
     <body>
         <!-- Provide site root to javascript -->
@@ -1032,13 +1033,22 @@ Version: 0.8.12+commit.f00d7308.Darwin.appleclang
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="debugger"><a class="header" href="#debugger">Debugger</a></h2>
 <p>Forge ships with an interactive debugger.</p>
-<p>Currently, the debugger is only accessible on <code>forge run</code>. To run the debugger, run:</p>
+<p>The debugger is accessible on <code>forge run</code> and on <code>forge test</code>.</p>
+<p>Using <code>forge test</code>:</p>
+<pre><code class="language-sh">$ forge test --debug $FUNC
+</code></pre>
+<p>Where <code>$FUNC</code> is the signature of the function you want to debug. For example:</p>
+<pre><code class="language-sh">$ forge test --debug &quot;testSomething&quot;
+</code></pre>
+<p>If you have multiple contracts with the same function name, you need to limit the matching functions down to only one case using <code>--match-patch</code> and <code>--match-contract</code>.</p>
+<p>If the matching test is a fuzz test, the debugger will open the first failing fuzz scenario, or the last successful one, whichever comes first.</p>
+<p>Using <code>forge run</code>:</p>
 <pre><code class="language-sh">$ forge run --debug $FILE --sig $FUNC
 </code></pre>
 <p>Where <code>$FILE</code> is the path to the contract you want to debug, and <code>$FUNC</code> is the signature of the function you want to debug. For example:</p>
 <pre><code class="language-sh">$ forge run --debug src/SomeContract.sol --sig &quot;myFunc(uint256,string)&quot; 123 &quot;hello&quot;
 </code></pre>
-<p>Additionally, test files can also be debugged in the same way.</p>
+<p>You can also specify raw calldata using <code>--sig</code> instead of a function signature.</p>
 <p>If your source file contains more than one contract, specify the contract you want to debug using the <code>--target-contract</code> flag.</p>
 <h3 id="debugger-layout"><a class="header" href="#debugger-layout">Debugger layout</a></h3>
 <p><img src="forge/../images/debugger.png" alt="An image of the debugger UI" /></p>
@@ -1049,17 +1059,41 @@ Version: 0.8.12+commit.f00d7308.Darwin.appleclang
 <li><strong>Quadrant 3</strong>: The source view</li>
 <li><strong>Quadrant 4</strong>: The current memory of the EVM</li>
 </ul>
+<p>As you step through your code, you will notice that the words in the stack and memory sometimes change color.</p>
+<p>For the memory:</p>
+<ul>
+<li><strong>Red words</strong> are about to be written to by the current opcode</li>
+<li><strong>Green words</strong> were written to by the previous opcode</li>
+<li><strong>Cyan words</strong> are being read by the current opcode</li>
+</ul>
+<p>For the stack, <strong>cyan words</strong> are either being read or popped by the current opcode.</p>
 <h3 id="navigating"><a class="header" href="#navigating">Navigating</a></h3>
+<h3 id="general"><a class="header" href="#general">General</a></h3>
 <ul>
 <li><kbd>q</kbd>: Quit the debugger</li>
-<li><kbd>n + k</kbd>: Step <code>n</code> times backwards (alternatively scroll up with your mouse)</li>
-<li><kbd>n + j</kbd>: Step <code>n</code> times forwards (alternatively scroll down with your mouse)</li>
+</ul>
+<h3 id="navigating-calls"><a class="header" href="#navigating-calls">Navigating calls</a></h3>
+<ul>
+<li><kbd>0-9</kbd> + <kbd>k</kbd>: Step a number of times backwards (alternatively scroll up with your mouse)</li>
+<li><kbd>0-9</kbd> + <kbd>j</kbd>: Step a number of times forwards (alternatively scroll down with your mouse)</li>
 <li><kbd>g</kbd>: Move to the beginning of the transaction</li>
 <li><kbd>G</kbd>: Move to the end of the transaction</li>
 <li><kbd>c</kbd>: Move to the previous call-type instruction (i.e. <a href="https://www.evm.codes/#f1"><code>CALL</code></a>, <a href="https://www.evm.codes/#fa"><code>STATICCALL</code></a>, <a href="https://www.evm.codes/#f4"><code>DELEGATECALL</code></a>, and <a href="https://www.evm.codes/#f2"><code>CALLCODE</code></a>).</li>
 <li><kbd>C</kbd>: Move to the next call-type instruction</li>
 <li><kbd>a</kbd>: Move to the previous <a href="https://www.evm.codes/#f1"><code>JUMP</code></a> or <a href="https://www.evm.codes/#57"><code>JUMPI</code></a> instruction</li>
 <li><kbd>s</kbd>: Move to the next <a href="https://www.evm.codes/#5b"><code>JUMPDEST</code></a> instruction</li>
+</ul>
+<h3 id="navigating-memory"><a class="header" href="#navigating-memory">Navigating memory</a></h3>
+<ul>
+<li><kbd>Ctrl</kbd> + <kbd>j</kbd>: Scroll the memory view down</li>
+<li><kbd>Ctrl</kbd> + <kbd>k</kbd>: Scroll the memory view up</li>
+<li><kbd>t</kbd>: Show labels on the stack to see what items the current op will consume</li>
+</ul>
+<h3 id="navigating-the-stack"><a class="header" href="#navigating-the-stack">Navigating the stack</a></h3>
+<ul>
+<li><kbd>J</kbd>: Scroll the stack view down</li>
+<li><kbd>K</kbd>: Scroll the stack view up</li>
+<li><kbd>m</kbd>: Show memory as UTF8</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="overview-of-cast"><a class="header" href="#overview-of-cast">Overview of <code>cast</code></a></h2>
 <p><code>cast</code> is Foundry's command-line tool for performing Ethereum RPC calls. You can make smart contract calls, send transactions, or retrieve any type of chain data - all from your command-line!</p>
