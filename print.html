@@ -1239,7 +1239,7 @@ contract NFT is ERC721 {
 export PRIVATE_KEY=&lt;Your wallets private key&gt;
 </code></pre>
 <p>Once set, you can deploy your NFT with Forge by running the below command while adding the relevant constructor arguments to the NFT contract:</p>
-<pre><code class="language-bash">forge create NFT --rpc-url=$RPC_URL --constructor-args &lt;name&gt; &lt;symbol&gt;
+<pre><code class="language-bash">forge create NFT --rpc-url=$RPC_URL --private-key=$PRIVATE_KEY --constructor-args &lt;name&gt; &lt;symbol&gt; 
 </code></pre>
 <p>If successfully deployed, you will see the deploying wallet's address, the contract's address as well as the transaction hash printed to your terminal.</p>
 <h3 id="minting-nfts-from-your-contract"><a class="header" href="#minting-nfts-from-your-contract">Minting NFTs from your contract</a></h3>
