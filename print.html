@@ -184,29 +184,35 @@
 <p>You can also check out <a href="https://github.com/crisgarner/awesome-foundry">Awesome Foundry</a>, a curated list of awesome Foundry resources, tutorials, tools and libraries!</p>
 </blockquote>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="installation"><a class="header" href="#installation">Installation</a></h2>
-<h3 id="using-foundryup"><a class="header" href="#using-foundryup">Using <code>foundryup</code></a></h3>
-<p>The easiest way to get Foundry is to install the latest release by using <code>foundryup</code>.</p>
-<p>On Linux and macOS systems, this is done as follows:</p>
+<h3 id="on-linux-and-macos"><a class="header" href="#on-linux-and-macos">On Linux and macOS</a></h3>
+<p>If you use Linux or macOS, there are two different ways to install Foundry.</p>
+<h4 id="install-the-latest-release-by-using-foundryup"><a class="header" href="#install-the-latest-release-by-using-foundryup">Install the latest release by using <code>foundryup</code></a></h4>
+<p>This is the easiest option for Linux and macOS users.</p>
+<p>Open your terminal and type in the following command:</p>
 <pre><code class="language-sh">curl -L https://foundry.paradigm.xyz | bash
 </code></pre>
-<p>This will download <code>foundryup</code>. To start install Foundry, run:</p>
+<p>This will download <code>foundryup</code>. Then install Foundry by running:</p>
 <pre><code class="language-sh">foundryup
 </code></pre>
 <p>If everything goes well, you will now have two binaries at your disposal: <code>forge</code> and <code>cast</code>.</p>
-<p>On Windows, build from source.</p>
-<p>Running <code>foundryup</code> again will update to the latest Foundry release. You can also revert to a specific version of Foundry with <code>foundryup -v $VERSION</code>.</p>
-<h3 id="building-from-source"><a class="header" href="#building-from-source">Building from source</a></h3>
+<blockquote>
+<p>💡 <strong>Tip</strong></p>
+<p>To update <code>foundryup</code> after installation, simply run <code>foundryup</code> again, and it will update to the latest Foundry release. You can also revert to a specific version of Foundry with <code>foundryup -v $VERSION</code>.</p>
+</blockquote>
+<h4 id="building-from-source"><a class="header" href="#building-from-source">Building from source</a></h4>
 <p>To build from source, you need to get <a href="https://rust-lang.org">Rust</a> and Cargo. The easiest way to get both is by using <code>rustup</code>.</p>
-<p>On Linux and macOS systems, this is done as follows:</p>
+<p>On Linux and macOS, this is done as follows:</p>
 <pre><code class="language-sh">curl https://sh.rustup.rs -sSf | sh
 </code></pre>
-<p>It will download a script and start installation.</p>
-<p>On Windows, download and run <code>rustup-init</code> from <a href="https://rustup.rs">rustup.rs</a>. It will start the installation in a console.</p>
+<p>It will download a script and start the installation.</p>
+<h3 id="on-windows-build-from-source"><a class="header" href="#on-windows-build-from-source">On Windows, build from source</a></h3>
+<p>If you use Windows, you need to build from source to get Foundry.</p>
+<p>Download and run <code>rustup-init</code> from <a href="https://rustup.rs">rustup.rs</a>. It will start the installation in a console.</p>
 <p>After this, run the following to build Foundry from source:</p>
 <pre><code class="language-sh">cargo install --git https://github.com/gakonst/foundry --bins --locked
 </code></pre>
 <h3 id="using-with-docker"><a class="header" href="#using-with-docker">Using with Docker</a></h3>
-<p>Foundry can also be used entirely within a Docker container. If you don't have it, Docker can be installed directly from <a href="https://docs.docker.com/get-docker/">Docker's website</a></p>
+<p>Foundry can also be used entirely within a Docker container. If you don't have it, Docker can be installed directly from <a href="https://docs.docker.com/get-docker/">Docker's website</a>.</p>
 <p>Once installed, you can download the latest release by running:</p>
 <pre><code class="language-sh">docker pull ghcr.io/gakonst/foundry:latest
 </code></pre>
